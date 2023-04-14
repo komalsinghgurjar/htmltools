@@ -105,17 +105,17 @@ header {
   flex-direction: column;
   align-items: center;
   margin-top: 30px;
-padding: 5px;
+padding: 10px;
 }
 
 .form-container h1 {
   font-size: 2.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .form-container label {
   font-size: 1.2rem;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
 }
 
 .form-container input {
@@ -125,7 +125,7 @@ padding: 5px;
   border: none;
   border-radius: 5px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
-  margin-bottom: 15px;
+  margin-bottom: 7px;
 }
 
 .form-container input[type="submit"] {
@@ -144,7 +144,7 @@ padding: 5px;
   width: 100%;
   max-width: 400px;
   height: auto;
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 /* Animation */
@@ -171,7 +171,7 @@ padding: 5px;
   text-align: center;
   text-decoration: none;
   font-size: 16px;
-  margin: 10px;
+  margin: 5px;
   border-radius: 5px;
   border: none;
   cursor: pointer;
@@ -194,32 +194,13 @@ padding: 5px;
       <h2 class="header">GURJARTECH TOOLS</h2>
     </a>
   </header>
-<!--
-    <div class="form-container">
-        <h1>UPI QR Generator</h1>
-        <form onsubmit="generateQRCode(); return false;">
-            <label for="pa">Payee Address (VPA)<span style="color:red">*</span>:</label>
-            <input type="text" id="pa" name="pa" required>
-            <label for="pn">Payee Name(Optional):</label>
-            <input type="text" id="pn" name="pn">
-            <label for="am">Transaction Amount(Optional):</label>
-            <input type="text" id="am" name="am">
-            <label for="cu">Currency Code(Optional):</label>
-            <input type="text" id="cu" name="cu">
-            <label for="tn">Transaction Note(Optional):</label>
-            <input type="text" id="tn" name="tn">
-            <input type="submit" value="Generate QR Code">
-        </form>
-        <canvas id="canvas"></canvas>
-        <a class="button" id="downloadLink" href="#" download>Download QR Code</a>
-    </div>
--->
+
 
 
 <br>
 <hr>
 <div class="form-container">
-  <h1>UPI Pay URI Generator</h1>
+  <h1>UPI QR Generator</h1>
   <form onsubmit="generateQRCode(); return false;">
     <label for="pa">Payee Address (VPA)*:</label>
     <input type="text" id="pa" name="pa" required pattern="[a-zA-Z0-9_.]+@[a-zA-Z0-9_.]+" title="Enter valid VPA with only alphanumeric characters, @ symbol and dot(.)">
@@ -232,12 +213,7 @@ padding: 5px;
     <label for="am">Transaction Amount:</label>
     <input type="text" id="am" name="am" pattern="[0-9]*\.?[0-9]*" title="Enter valid amount with only digits and dot(.)" inputmode="numeric">
 <small>e.g. 500.50</small>
-    <br><br><!--
-    <label for="cu">Currency Code:</label>
-<input type="text" id="cu" name="cu" maxlength="3" pattern="[A-Z]{3}" oninput="this.value = this.value.replace(/[^A-Z]/g, '').toUpperCase()">
-<small>Enter 3-letter currency code e.g. INR (Optional)</small>
-
--->
+    <br><br>
 
 
 
@@ -267,6 +243,7 @@ padding: 5px;
             font-size: 16px;
             line-height: 1.5;
             padding: 20px;
+overflow-x: hidden;
 word-wrap: break-word;
             text-align: justify;">
   OUTPUT AREA: None
@@ -304,7 +281,7 @@ word-wrap: break-word;
             var qr = new QRious({
                 element: document.getElementById("canvas"),
                 value: payURI,
-                size: 300
+                size: 1200
             });
 
             var downloadLink = document.getElementById("downloadLink");
@@ -312,7 +289,7 @@ word-wrap: break-word;
             downloadLink.download = "upi_pay_qr.png";
 
 
-printUriIntent("QR Payloaded PayURI Intent is: "+payURI);
+printUriIntent("QR Payloaded PayURI Intent is: \n"+payURI);
         }
 
 function printUriIntent(val){
