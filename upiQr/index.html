@@ -64,7 +64,99 @@ white-space: nowrap;
 /* header css end */
   </style>
 
+<style>
+/* Reset default margin and padding for body element */
+body {
+  margin: 0;
+  padding: 0;
+}
 
+/* Style for header */
+header {
+  background-color: #000;
+  color: #fff;
+  padding: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Style for logo */
+header img {
+  outline: none;
+  border: none;
+  height: 50px;
+  width: auto;
+  margin-right: 2px;
+  vertical-align: middle;
+}
+
+/* Style for header text */
+.header {
+  white-space: nowrap;
+  display: inline;
+  margin: 0;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+/* Style for link */
+a:link,
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Style for form container */
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Style for form heading */
+.form-container h1 {
+  margin-top: 0;
+  font-size: 28px;
+  text-align: center;
+}
+
+/* Style for form label */
+.form-container label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* Style for form input */
+.form-container input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+/* Style for submit button */
+.form-container input[type="submit"] {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Style for QR code container */
+#qrcode {
+  margin: 0 auto;
+  display: block;
+  max-width: 400px;
+  margin-top: 20px;
+}
+
+</style>
     <title>UPI QR Generator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     
