@@ -76,16 +76,145 @@ body {
 
 
 
+
+
+
+	<title>URL QR Code Generator</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			background-color: #f5f5f5;
+		}
+
+		.container {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #fff;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+		}
+
+		h1 {
+			text-align: center;
+			margin-top: 0;
+			color: #333;
+		}
+
+		form {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+
+		input[type="text"] {
+			padding: 10px;
+			font-size: 16px;
+			border-radius: 5px;
+			border: none;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+			width: 100%;
+			max-width: 400px;
+		}
+
+		button[type="button"] {
+			padding: 10px;
+			font-size: 16px;
+			border-radius: 5px;
+			border: none;
+			background-color: #007bff;
+			color: #fff;
+			cursor: pointer;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+			transition: background-color 0.2s ease-in-out;
+		}
+
+		button[type="button"]:hover {
+			background-color: #0062cc;
+		}
+
+		#qr-code {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 250px;
+		}
+
+		#qr-code img {
+			max-width: 100%;
+			max-height: 100%;
+			object-fit: contain;
+		}
+
+		.download-button {
+			display: flex;
+			justify-content: center;
+		}
+
+		.download-button button {
+			padding: 10px;
+			font-size: 16px;
+			border-radius: 5px;
+			border: none;
+			background-color: #007bff;
+			color: #fff;
+			cursor: pointer;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+			transition: background-color 0.2s ease-in-out;
+		}
+
+		.download-button button:hover {
+			background-color: #0062cc;
+		}
+	</style>
 </head>
 <body> 
 <header>
     <a href="https://tools.gurjartech.in/">
       <img src="https://tools.gurjartech.in/logo.png" alt="LOGO">
-      <h1 class="header">GURJARTECH TOOLS</h1>
+      <h2 class="header">GURJARTECH TOOLS</h2>
     </a>
 </header><br><br>
 
-	
+
+
+
+
+
+	<div class="container">
+		<h1>QR Code Generator</h1>
+		<p>Enter the URL you want to generate a QR code for:</p>
+		<form>
+			<input type="text" id="url" name="url" placeholder="Enter URL">
+			<button type="button" onclick="generateQR()">Generate QR</button>
+		</form>
+		<div id="qr-code"></div>
+		<div class="download-button">
+			<button type="button" onclick="downloadQR()">Download QR</button>
+		</div>
+
+		<script>
+			function generateQR() {
+				var url = document.getElementById("url").value;
+				var qrCode = document.getElementById("qr-code");
+qrCode.innerHTML = '<img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=' + url + '&choe=UTF-8" alt="QR Code">';
+			}
+
+			function downloadQR() {
+				var qrCode = document.querySelector("#qr-code img");
+				var link = document.createElement('a');
+				link.download = 'qr-code.png';
+				link.href = qrCode.src;
+				link.click();
+			}
+		</script>
+	</div>
+
+
+
+
 
 
 <br><br><hr><br><br>
