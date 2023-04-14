@@ -113,6 +113,10 @@ padding: 5px;
 			border: none;
 			cursor: pointer;
 		}
+button {
+  font-size: 18px;
+  padding: 12px 20px;
+}
 form {
 			margin-top: 30px;
 		}
@@ -159,9 +163,9 @@ form {
 
 	<div class="container">
 		<h2>Generate URL QR Code</h2><br>
-		<input type="text" id="url" placeholder="Enter URL">
-		<button onclick="generateQRCode()">Generate</button><br>
-		<canvas id="canvas"></canvas>
+		<input type="text" id="url" placeholder="Enter URL Or Link">
+		<button onclick="generateQRCode()"></button>
+		<br><br><canvas id="canvas"></canvas>
 <br><br>
 		<a class="button" id="downloadLink" href="#" download>Download QR Code</a>
 	</div>
