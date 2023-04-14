@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>UPI Pay URI Generator</title>
+    <title>UPI QR Generator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
         #canvas {
@@ -22,17 +22,17 @@
 <body>
 <!--
     <div class="form-container">
-        <h1>UPI Pay URI Generator</h1>
+        <h1>UPI QR Generator</h1>
         <form onsubmit="generateQRCode(); return false;">
-            <label for="pa">Payee Address (VPA)*:</label>
+            <label for="pa">Payee Address (VPA)<span style="color:red">*</span>:</label>
             <input type="text" id="pa" name="pa" required>
-            <label for="pn">Payee Name:</label>
+            <label for="pn">Payee Name(Optional):</label>
             <input type="text" id="pn" name="pn">
-            <label for="am">Transaction Amount:</label>
+            <label for="am">Transaction Amount(Optional):</label>
             <input type="text" id="am" name="am">
-            <label for="cu">Currency Code:</label>
+            <label for="cu">Currency Code(Optional):</label>
             <input type="text" id="cu" name="cu">
-            <label for="tn">Transaction Note:</label>
+            <label for="tn">Transaction Note(Optional):</label>
             <input type="text" id="tn" name="tn">
             <input type="submit" value="Generate QR Code">
         </form>
@@ -151,6 +151,32 @@
             downloadLink.href = document.getElementById("canvas").toDataURL("image/png");
             downloadLink.download = "upi_pay_qr.png";
         }
+
+function printUriIntent(){
+// Define two variables
+var var1 = "Hello";
+var var2 = "World!";
+
+// Create a new div element and set its style properties
+var newDiv = document.createElement("div");
+newDiv.style.position = "absolute";
+newDiv.style.top = "50%";
+newDiv.style.left = "50%";
+newDiv.style.transform = "translate(-50%, -50%)";
+newDiv.style.backgroundColor = "lightblue";
+newDiv.style.padding = "20px";
+newDiv.style.borderRadius = "10px";
+newDiv.style.fontFamily = "Arial, sans-serif";
+newDiv.style.fontSize = "24px";
+newDiv.style.color = "white";
+newDiv.style.textAlign = "center";
+
+// Add the variables inside the div element
+newDiv.innerHTML = var1 + " " + var2;
+
+// Add the div element to the body of the document
+document.body.appendChild(newDiv);
+}
     </script>
 </body>
 </html>
