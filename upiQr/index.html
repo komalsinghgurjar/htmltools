@@ -20,6 +20,7 @@
     </style>
 </head>
 <body>
+<!--
     <div class="form-container">
         <h1>UPI Pay URI Generator</h1>
         <form onsubmit="generateQRCode(); return false;">
@@ -38,6 +39,86 @@
         <canvas id="canvas"></canvas>
         <a class="button" id="downloadLink" href="#" download>Download QR Code</a>
     </div>
+-->
+
+
+<style>
+.form-container label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.form-container input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+.form-container input[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.form-container input[type="submit"]:hover {
+  background-color: #0069d9;
+}
+.button {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+}
+.button:hover {
+  background-color: #0069d9;
+}
+</style>
+
+<div class="form-container">
+  <h1>UPI Pay URI Generator</h1>
+  <form onsubmit="generateQRCode(); return false;">
+    <label for="pa">Payee Address (VPA)*:</label>
+    <input type="text" id="pa" name="pa" required pattern="[a-zA-Z0-9_.]+@[a-zA-Z0-9_.]+" title="Enter valid VPA with only alphanumeric characters, @ symbol and dot(.)">
+    <small>e.g. username@bankname or username@upi</small>
+    <br><br>
+    <label for="pn">Payee Name:</label>
+    <input type="text" id="pn" name="pn">
+    <small>e.g. John Doe</small>
+    <br><br>
+    <label for="am">Transaction Amount:</label>
+    <input type="text" id="am" name="am" pattern="[0-9]*\.?[0-9]*" title="Enter valid amount with only digits and dot(.)">
+    <small>e.g. 500.50</small>
+    <br><br>
+    <label for="cu">Currency Code:</label>
+    <input type="text" id="cu" name="cu" value="INR">
+    <small>Default currency code is INR</small>
+    <br><br>
+    <label for="tn">Transaction Note:</label>
+    <input type="text" id="tn" name="tn">
+    <small>e.g. Payment for dinner</small>
+    <br><br>
+    <input type="submit" value="Generate QR Code">
+  </form>
+  <canvas id="canvas"></canvas>
+  <a class="button" id="downloadLink" href="#" download>Download QR Code</a>
+</div>
+
+
+
+
+
+
     <script>
         function generateQRCode() {
             var pa = document.getElementById("pa").value;
