@@ -202,15 +202,15 @@ padding: 5px;
   <h1>UPI QR Generator</h1><br>
   <form onsubmit="generateQRCode(); return false;">
     <label for="pa">Payee Address (VPA)*:</label>
-    <small>e.g. username@bankname or username@upi</small>
+    <br><small>e.g. username@bankname or username@upi</small>
     <input type="text" id="pa" name="pa" required pattern="[a-zA-Z0-9_.]+@[a-zA-Z0-9_.]+" title="Enter valid VPA with only alphanumeric characters, @ symbol and dot(.)">
     <br><hr>
     <label for="pn">Payee Name:</label>
-<small>e.g. John Doe (if Qr doesn't scan fill this)</small>
+<br><small>e.g. John Doe (if Qr doesn't scan fill this)</small>
     <input type="text" id="pn" name="pn" pattern="[A-Za-z ]+" oninput="this.value = this.value.replace(/[^A-Za-z ]/g, ''); this.value = this.value.replace(/\b\w/g, l => l.toUpperCase());">
 <br><hr>
     <label for="am">Transaction Amount:</label>
-    <small>e.g. 500.50</small>
+    <br><small>e.g. 500.50</small>
 <input type="text" id="am" name="am" pattern="[0-9]*\.?[0-9]*" title="Enter valid amount with only digits and dot(.)" inputmode="numeric">
 
     <br><hr>
@@ -220,13 +220,13 @@ padding: 5px;
 
 
 <label for="cu">Currency Code:</label>
-<small>Enter 3-letter currency code e.g. INR (Optional)</small>
+<br><small>Enter 3-letter currency code e.g. INR (Optional)</small>
 <input type="text" id="cu" name="cu" minlength="3" maxlength="3" pattern="[A-Za-z]{3}" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '').toUpperCase()">
 
 
     <br><hr>
     <label for="tn">Transaction Note:</label>
-<small>e.g. Payment for dinner</small>
+<br><small>e.g. Payment for dinner</small>
     <input type="text" id="tn" name="tn">
        <br><hr>
     <input type="submit" value="Generate QR Code">
@@ -243,8 +243,7 @@ padding: 5px;
             font-size: 16px;
             line-height: 1.5;
             padding: 20px;
-overflow-x: hidden;
-word-wrap: break-word;
+overflow: auto;
             text-align: justify;">
   OUTPUT AREA: None
 </div></div><br><hr>
