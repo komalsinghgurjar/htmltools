@@ -1,129 +1,41 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="canonical" href="https://tools.gurjartech.in/upiQr" />
-    <meta charset="UTF-8">
-    <meta name="description" content="Tool to generate QR code with name for UPI VPA and download it easily.">
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-    <meta name="robots" content="index, follow">
-    <link rel="portrait" href="portrait.jpg" media="(orientation:portrait)">
-    <link rel="shortcut icon" href="https://tools.gurjartech.in/favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="https://tools.gurjartech.in/favicon.ico" type="image/x-icon" />
-
-    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://tools.gurjartech.in/favicon.ico"
-        sizes="16x16 32x32">
-    <link rel="shortcut icon" type="image/x-icon" href="https://tools.gurjartech.in/favicon.ico"
-        sizes="16x16 32x32">
-    <link rel="icon" type="image/x-icon" href="https://tools.gurjartech.in/favicon.ico" sizes="16x16 32x32">
-    <link rel="icon" type="image/png" href="https://tools.gurjartech.in/favicon-64x64.png" sizes="64x64">
-    <link rel="icon" type="image/png" href="https://tools.gurjartech.in/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="https://tools.gurjartech.in/android-chrome-192x192.png" sizes="192x192">
-    <link rel="apple-touch-icon" sizes="57x57" href="https://tools.gurjartech.in/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="https://tools.gurjartech.in/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="https://tools.gurjartech.in/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="https://tools.gurjartech.in/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="https://tools.gurjartech.in/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://tools.gurjartech.in/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="https://tools.gurjartech.in/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://tools.gurjartech.in/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://tools.gurjartech.in/apple-touch-icon-180x180.png">
-    
-    <title>UPI QR Code Generator</title>
-<style>
-.container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-label {
-    font-weight: bold;
-}
-
-input[type="text"] {
-    padding: 10px;
-    font-size: 16px;
-}
-
-button[type="submit"] {
-    padding: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    border: none;
-    text-transform: uppercase;
-}
-
-#qrCodeContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-}
-
-h2 {
-    text-align: center;
-}
-
-#qrCode {
-    max-width: 300px;
-}
-
-#downloadBtn {
-    padding: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    border: none;
-    text-transform: uppercase;
-    margin-top: 10px;
-    pointer-events: none;
-    opacity: 0.5;
-}
-
-#downloadBtn:enabled {
-    pointer-events: auto;
-    opacity: 1;
-}
-</style>
+  <title>UPI VPA QR Code Generator</title>
+  <!-- Include QRious library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 </head>
-
 <body>
-    <div class="container">
-        <h1>UPI QR Code Generator</h1>
-        <form id="qrForm">
-            <label for="upiId">UPI ID (VPA):</label>
-            <input type="text" id="upiId" name="upiId" required>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name">
-            <button type="submit">Generate QR Code</button>
-        </form>
-        <div id="qrCodeContainer">
-            <h2>QR Code</h2>
-            <div id="qrCode"></div>
-            <button id="downloadBtn" disabled>Download</button>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-    <script src="script.js"></script>
+  <h1>UPI VPA QR Code Generator</h1>
+  <form onsubmit="generateQRCode(); return false;">
+    <label for="vpaInput">Enter UPI VPA:</label>
+    <input type="text" id="vpaInput" required>
+    <label for="nameInput">Name (Optional):</label>
+    <input type="text" id="nameInput">
+    <button type="submit">Generate QR Code</button>
+  </form>
+  <canvas id="qrcodeCanvas"></canvas>
+  <a id="downloadLink" download="upi_vpa_qr_code.png" href="#">Download QR Code</a>
+  <script>
+    function generateQRCode() {
+      var vpa = document.getElementById("vpaInput").value;
+      var name = document.getElementById("nameInput").value || "";
+      var qr = new QRious({
+        element: document.getElementById("qrcodeCanvas"),
+        value: "upi://pay?pa=" + encodeURIComponent(vpa),
+        size: 256,
+        background: "white",
+        foreground: "black"
+      });
+      qr.toDataURL(function(dataURL) {
+        var ctx = qr._canvas.getContext("2d");
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.fillText(name, qr._canvas.width/2, qr._canvas.height + 20);
+        document.getElementById("downloadLink").href = qr.toDataURL();
+      });
+    }
+  </script>
 </body>
-
 </html>
-
