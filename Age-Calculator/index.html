@@ -1,1 +1,246 @@
-test
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Age Calculator</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+			margin: 0;
+			padding: 0;
+		}
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #fff;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+			border-radius: 10px;
+		}
+
+		h1 {
+			text-align: center;
+			margin-top: 0;
+		}
+		form {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
+			margin: 20px 0;
+		}
+
+		label {
+			font-weight: bold;
+			margin-right: 10px;
+			text-align: right;
+			flex: 1 0 150px;
+			padding-top: 5px;
+		}
+
+		input[type="date"] {
+			flex: 1 0 200px;
+			padding: 5px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+		}
+		.button-wrapper {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: 20px;
+		}
+
+		button {
+			padding: 10px 20px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		button:hover {
+			background-color: #3e8e41;
+		}
+		.result-wrapper {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
+			margin-top: 20px;
+		}
+
+		.result {
+			flex: 1 0 200px;
+			padding: 10px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			text-align: center;
+			margin: 5px;
+			background-color: #f2f2f2;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+		}
+		.result-title {
+			font-weight: bold;
+			margin-bottom: 5px;
+		}
+
+		.result-value {
+			font-size: 20px;
+			font-weight: bold;
+		}
+
+		@media (max-width: 768px) {
+			form {
+				flex-direction: column;
+			}
+
+			label {
+				flex: 1 0 auto;
+			}
+
+			input[type="date"] {
+				flex: 1 0 auto;
+				margin-top: 5px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Date Calculator</h1>
+
+		<form id="date-form">
+			<div>
+				<label for="start-date">Start Date:</label>
+				<input type="date" id="start-date" required>
+			</div>
+
+			<div>
+				<label for="end-date">End Date:</label>
+				<input type="date" id="end-date" required>
+			</div>
+			<div class="button-wrapper">
+				<button type="submit">Calculate</button>
+			</div>
+		</form>
+
+		<div class="result-wrapper" id="result-wrapper">
+			<div class="result">
+				<div class="result-title">Age:</div>
+				<div class="result-value" id="age-result"></div>
+			</div>
+
+			<div class="result">
+				<div class="result-title">Years:</div>
+				<div class="result-value" id="years-result"></div>
+			</div>
+
+			<div class="result">
+				<div class="result-title">Months:</div>
+				<div class="result-value" id="months-result"></div>
+			</div>
+			<div class="result">
+				<div class="result-title">Days:</div>
+				<div class="result-value" id="days-result"></div>
+			</div>
+
+			<div class="result">
+				<div class="result-title">Hours:</div>
+				<div class="result-value" id="hours-result"></div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+const dateForm = document.querySelector('#date-form');
+const startDateInput = document.querySelector('#start-date');
+const endDateInput = document.querySelector('#end-date');
+const resultWrapper = document.querySelector('#result-wrapper');
+const ageResult = document.querySelector('#age-result');
+const yearsResult = document.querySelector('#years-result');
+const monthsResult = document.querySelector('#months-result');
+const daysResult = document.querySelector('#days-result');
+const hoursResult = document.querySelector('#hours-result');
+
+dateForm.addEventListener('submit', calculateDates);
+
+function calculateDates(e) {
+  e.preventDefault();
+
+  const startDate = new Date(startDateInput.value);
+  const endDate = new Date(endDateInput.value);
+
+  const age = calculateAge(startDate, endDate);
+  const years = calculateYears(startDate, endDate);
+  const months = calculateMonths(startDate, endDate);
+  const days = calculateDays(startDate, endDate);
+  const hours = calculateHours(startDate, endDate);
+
+  ageResult.textContent = age;
+  yearsResult.textContent = years;
+  monthsResult.textContent = months;
+  daysResult.textContent = days;
+  hoursResult.textContent = hours;
+
+  resultWrapper.style.display = 'flex';
+}
+
+function calculateAge(startDate, endDate) {
+  const ageDiffMs = endDate - startDate;
+  const ageDate = new Date(ageDiffMs);
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
+function calculateYears(startDate, endDate) {
+  const diffMs = endDate - startDate;
+  const years = diffMs / 1000 / 60 / 60 / 24 / 365;
+  return Math.floor(years);
+}
+
+function calculateMonths(startDate, endDate) {
+  const diffMs = endDate - startDate;
+  const months = diffMs / 1000 / 60 / 60 / 24 / 30.44;
+  return Math.floor(months);
+}
+
+function calculateDays(startDate, endDate) {
+  const diffMs = endDate - startDate;
+  const days = diffMs / 1000 / 60 / 60 / 24;
+  return Math.floor(days);
+}
+
+function calculateHours(startDate, endDate) {
+  const diffMs = endDate - startDate;
+  const hours = diffMs / 1000 / 60 / 60;
+  return Math.floor(hours);
+}
+
+</script>
+  
+  <style>
+      /* CSS styles for the copyright text */
+      div .copyright {
+        font-size: small;
+        color: #555;
+        margin: 20px;
+        text-align: center;
+      }
+      
+      div .copyright p {
+        margin: 10px 0;
+        line-height: 1.5;
+      }
+    </style>
+  <br />
+  <div class="copyright">
+  <p>&copy; 2023 Komal Singh. All rights reserved.</p>
+  <p>This HTML online tool is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this tool, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under the law.</p>
+  <p>The HTML code, design, and content of this tool are the exclusive property of Komal Singh and may not be used or reproduced without permission. Any use or reproduction without permission is strictly prohibited and will be subject to legal action.</p>
+  <p>For licensing and other inquiries, please contact Komal Singh at <a href="mailto:komalsin9h@gmail.com">komalsin9h@gmail.com</a>.</p>
+  <p>By using this HTML online tool, you agree to abide by all copyright and intellectual property laws and regulations.</p>
+</div>
+
+</body>
+</html>
