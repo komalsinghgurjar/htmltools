@@ -2,75 +2,64 @@
 <html>
 <head>
     <title>UPI QR Code Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/qrious.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
         }
 
-        #qr-code {
-            margin-top: 20px;
+        canvas {
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
         }
 
-        #name-input {
-            margin-top: 10px;
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            margin-bottom: 20px;
         }
 
-        #download-button {
-            margin-top: 10px;
+        input {
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/qrious.min.js"></script>
 </head>
 <body>
     <h1>UPI QR Code Generator</h1>
-    <form id="qr-form">
-        <label for="vpa-input">UPI VPA:</label>
-        <input type="text" id="vpa-input" name="vpa" required>
-        <input type="submit" value="Generate QR Code">
-        <input type="text" id="name-input" name="name" placeholder="Name (optional)">
+    <form onsubmit="generateQRCode(); return false;">
+        <label for="vpa">VPA (Virtual Payment Address):</label>
+        <input type="text" id="vpa" name="vpa" required>
+        <label for="name">Name (optional):</label>
+        <input type="text" id="name" name="name">
+        <button type="submit">Generate QR Code</button>
     </form>
-    <canvas id="qr-code"></canvas>
-    <button id="download-button">Download QR Code</button>
-
+    <canvas id="qrCanvas"></canvas>
+    <a id="downloadLink" style="display: none;" download="upi_qr_code.png">Download QR Code</a>
     <script>
-        // Submit form to generate QR code
-        document.getElementById("qr-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-            var vpa = document.getElementById("vpa-input").value;
-            var name = document.getElementById("name-input").value;
-            if (!vpa) {
-                alert("Please enter a valid UPI VPA.");
-                return;
-            }
-            generateQRCode(vpa, name);
-        });
-
-        // Generate QR code
-        function generateQRCode(vpa, name) {
+        function generateQRCode() {
+            var vpa = document.getElementById('vpa').value;
+            var name = document.getElementById('name').value;
+            var qrData = "upi://pay?pa=" + encodeURIComponent(vpa) + "&mc=" + encodeURIComponent(name);
             var qr = new QRious({
-                element: document.getElementById("qr-code"),
-                value: vpa,
-                size: 250
+                element: document.getElementById('qrCanvas'),
+                value: qrData,
+                size: 200
             });
-
-            if (name) {
-                var canvas = document.getElementById("qr-code");
-                var ctx = canvas.getContext("2d");
-                ctx.fillStyle = "black";
-                ctx.font = "14px Arial";
-                ctx.textAlign = "center";
-                ctx.fillText(name, canvas.width / 2, qr.size + 20);
-            }
+            document.getElementById('downloadLink').href = qr.toDataURL('image/png');
+            document.getElementById('downloadLink').style.display = 'block';
         }
-
-        // Download QR code
-        document.getElementById("download-button").addEventListener("click", function() {
-            var canvas = document.getElementById("qr-code");
-            var link = document.createElement('a');
-            link.href = canvas.toDataURL("image/png");
-            link.download = "qr_code.png";
-            link.click();
-        });
     </script>
 </body>
 </html>
