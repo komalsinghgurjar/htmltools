@@ -93,12 +93,12 @@
     <small>e.g. username@bankname or username@upi</small>
     <br><br>
     <label for="pn">Payee Name:</label>
-<input type="text" id="pn" name="pn" pattern="[A-Za-z ]+" oninput="this.value = this.value.replace(/\b\w/g, l => l.toUpperCase());">
-    <small>e.g. John Doe (if Qr doesn't scan fill this)</small>
+<input type="text" id="pn" name="pn" pattern="[A-Za-z ]+" oninput="this.value = this.value.replace(/[^A-Za-z ]/g, ''); this.value = this.value.replace(/\b\w/g, l => l.toUpperCase());">
+<small>e.g. John Doe (if Qr doesn't scan fill this)</small>
     <br><br>
     <label for="am">Transaction Amount:</label>
-    <input type="text" id="am" name="am" pattern="[0-9]*\.?[0-9]*" title="Enter valid amount with only digits and dot(.)">
-    <small>e.g. 500.50</small>
+    <input type="text" id="am" name="am" pattern="[0-9]*\.?[0-9]*" title="Enter valid amount with only digits and dot(.)" inputmode="numeric">
+<small>e.g. 500.50</small>
     <br><br>
     <label for="cu">Currency Code:</label>
 <input type="text" id="cu" name="cu" maxlength="3" pattern="[A-Z]{3}" oninput="this.value = this.value.toUpperCase()">
@@ -150,13 +150,12 @@
             var downloadLink = document.getElementById("downloadLink");
             downloadLink.href = document.getElementById("canvas").toDataURL("image/png");
             downloadLink.download = "upi_pay_qr.png";
+
+
+printUriIntent("PayURI UPI Intent: "+payURI);
         }
 
-function printUriIntent(){
-// Define two variables
-var var1 = "Hello";
-var var2 = "World!";
-
+function printUriIntent(var val){
 // Create a new div element and set its style properties
 var newDiv = document.createElement("div");
 newDiv.style.position = "absolute";
@@ -172,7 +171,7 @@ newDiv.style.color = "white";
 newDiv.style.textAlign = "center";
 
 // Add the variables inside the div element
-newDiv.innerHTML = var1 + " " + var2;
+newDiv.innerHTML = val;
 
 // Add the div element to the body of the document
 document.body.appendChild(newDiv);
