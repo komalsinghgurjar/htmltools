@@ -2,7 +2,23 @@
 <html>
 <head>
     <title>UPI QR Code Generator</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #qr-code {
+            margin-top: 20px;
+        }
+
+        #name-input {
+            margin-top: 10px;
+        }
+
+        #download-button {
+            margin-top: 10px;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/qrious.min.js"></script>
 </head>
 <body>
@@ -10,19 +26,18 @@
     <form id="qr-form">
         <label for="vpa-input">UPI VPA:</label>
         <input type="text" id="vpa-input" name="vpa" required>
-        <label for="name-input">Name (optional):</label>
-        <input type="text" id="name-input" name="name">
         <input type="submit" value="Generate QR Code">
+        <input type="text" id="name-input" name="name" placeholder="Name (optional)">
     </form>
     <canvas id="qr-code"></canvas>
     <button id="download-button">Download QR Code</button>
 
     <script>
         // Submit form to generate QR code
-        $("#qr-form").on("submit", function(event) {
+        document.getElementById("qr-form").addEventListener("submit", function(event) {
             event.preventDefault();
-            var vpa = $("#vpa-input").val();
-            var name = $("#name-input").val();
+            var vpa = document.getElementById("vpa-input").value;
+            var name = document.getElementById("name-input").value;
             if (!vpa) {
                 alert("Please enter a valid UPI VPA.");
                 return;
@@ -49,7 +64,7 @@
         }
 
         // Download QR code
-        $("#download-button").on("click", function() {
+        document.getElementById("download-button").addEventListener("click", function() {
             var canvas = document.getElementById("qr-code");
             var link = document.createElement('a');
             link.href = canvas.toDataURL("image/png");
