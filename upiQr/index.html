@@ -3,7 +3,7 @@
 <head>
     <title>UPI VPA QR Code Generator</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     <style>
         body {
             text-align: center;
@@ -25,6 +25,15 @@
             margin-bottom: 10px;
         }
 
+        #generate-button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
         #download-button {
             padding: 10px;
             background-color: #007bff;
@@ -32,6 +41,7 @@
             text-decoration: none;
             border-radius: 4px;
             display: inline-block;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -48,11 +58,21 @@
     <script>
         // Generate QR code
         function generateQRCode(vpa, name) {
-            var qr = new QRCode(document.getElementById("qr-code"), {
-                width: 200,
-                height: 200
-            });
-            qr.makeCode(vpa + (name ? "\nName: " + name : ""));
+            var qr = qrcode(0, 'M');
+            qr.addData(vpa + (name ? "\nName: " + name : ""));
+            qr.make();
+            var canvas = document.getElementById("qr-code");
+            var context = canvas.getContext("2d");
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.fillStyle = "#000";
+            var moduleCount = qr.getModuleCount();
+            for (var row = 0; row < moduleCount; row++) {
+                for (var col = 0; col < moduleCount; col++) {
+                    if (qr.isDark(row, col)) {
+                        context.fillRect(row, col, 1, 1);
+                    }
+                }
+            }
         }
 
         // Validate VPA format
@@ -75,11 +95,12 @@
         // Download QR code
         $("#download-button").on("click", function() {
             var canvas = document.getElementById("qr-code");
-            var downloadLink = document.createElement("a");
-            downloadLink.href = canvas.toDataURL("image/png");
-            downloadLink.download = "qr_code.png";
-            downloadLink.click();
+            var link = document.createElement('a');
+            link.href = canvas.toDataURL("image/png");
+            link.download = "qr_code.png";
+            link.click();
         });
     </script>
 </body>
 </html>
+
