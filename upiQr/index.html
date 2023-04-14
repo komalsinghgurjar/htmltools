@@ -140,7 +140,7 @@ padding: 10px;
 }
 
 /* QR Code */
-#qr-canvas {
+#canvas {
   width: 100%;
   max-width: 400px;
   height: auto;
@@ -281,7 +281,7 @@ word-wrap: break-word;
             var qr = new QRious({
                 element: document.getElementById("canvas"),
                 value: payURI,
-                size: 1200
+                size: 600
             });
 
             var downloadLink = document.getElementById("downloadLink");
