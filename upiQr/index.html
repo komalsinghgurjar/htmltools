@@ -89,7 +89,7 @@ border: 1px solid #ccc;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 20px;
 padding: 5px;
 }
 
@@ -155,7 +155,7 @@ padding: 5px;
   padding: 15px;
   text-align: center;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 20px;
   margin: 5px;
   border-radius: 5px;
   border: none;
@@ -202,6 +202,11 @@ padding: 5px;
 
 
 
+<label for="am">QR HD QUALITY:</label>
+    <br><small>e.g. 600 (proportional to size and HD quality.)</small>
+<input type="text" id="size" name="size" pattern="[0-9]*\.?[0-9]*" title="Enter valid number higher the more HD qr" inputmode="numeric">
+
+    <br><hr>
 
 
 <label for="cu">Currency Code:</label>
@@ -247,6 +252,10 @@ padding: 5px;
             var cu = document.getElementById("cu").value;
             var tn = document.getElementById("tn").value;
 
+var sz = document.getElementById("size").value;
+sz=sz+0;
+
+
             var payURI = "upi://pay?pa=" + encodeURIComponent(pa);
             if (pn) {
                 payURI += "&pn=" + encodeURIComponent(pn);
@@ -264,7 +273,7 @@ padding: 5px;
             var qr = new QRious({
                 element: document.getElementById("canvas"),
                 value: payURI,
-                size: 700
+                size: sz
             });
 
             var downloadLink = document.getElementById("downloadLink");
@@ -272,7 +281,7 @@ padding: 5px;
             downloadLink.download = "upi_pay_qr.png";
 
 
-printUriIntent("QR Payloaded PayURI Intent is: \n"+payURI);
+printUriIntent("PayUri:"+payURI);
         }
 
 function printUriIntent(val){
