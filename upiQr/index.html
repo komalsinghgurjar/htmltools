@@ -62,10 +62,6 @@ white-space: nowrap;
       color: inherit;
     }
 body {
-  justify-content: center;
-  align-items: center;
-			font-family: Arial, sans-serif;
-			background-color: #f2f2f2;
 			margin: 0;
 			padding: 0;
 		}
@@ -127,7 +123,7 @@ body {
   font-weight: bold;
 }
 .form-container input[type="text"] {
-  width: 60%;
+  width: 80%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -182,7 +178,7 @@ margin: 20px;
 <small>e.g. 500.50</small>
     <br><br>
     <label for="cu">Currency Code:</label>
-<input type="text" id="cu" name="cu" maxlength="3" pattern="[A-Z]{3}" oninput="this.value = this.value.toUpperCase()">
+<input type="text" id="cu" name="cu" maxlength="3" pattern="[A-Z]{3}" oninput="this.value = this.value.replace(/[^A-Z]/g, '').toUpperCase()">
 <small>Enter 3-letter currency code e.g. INR (Optional)</small>
     <br><br>
     <label for="tn">Transaction Note:</label>
@@ -191,6 +187,9 @@ margin: 20px;
     <br><br>
     <input type="submit" value="Generate QR Code">
   </form>
+</div>
+  <a class="button" id="downloadLink" href="#" download>Download QR Code</a>
+</div><br>
   <canvas id="canvas"></canvas><br>
 <div id="output" style="background-color: #f1f1f1;
             border: 1px solid #ccc;
@@ -203,9 +202,7 @@ margin: 20px;
             padding: 20px;
             text-align: justify;">
   OUTPUT AREA: None
-</div><br>
-  <a class="button" id="downloadLink" href="#" download>Download QR Code</a>
-</div>
+
 
 
 
