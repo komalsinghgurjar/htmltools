@@ -1,64 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>UPI QR Code Generator</title>
-    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/qrious.min.js"></script>
+    <title>UPI Pay URI Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-
-        canvas {
-            border: 1px solid #ccc;
-            margin-bottom: 20px;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
+        #canvas {
             max-width: 300px;
-            margin-bottom: 20px;
         }
-
-        input {
-            margin-bottom: 10px;
-            padding: 5px;
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
-
-        button {
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
+        .form-container input[type="submit"] {
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>UPI QR Code Generator</h1>
-    <form onsubmit="generateQRCode(); return false;">
-        <label for="vpa">VPA (Virtual Payment Address):</label>
-        <input type="text" id="vpa" name="vpa" required>
-        <label for="name">Name (optional):</label>
-        <input type="text" id="name" name="name">
-        <button type="submit">Generate QR Code</button>
-    </form>
-    <canvas id="qrCanvas"></canvas>
-    <a id="downloadLink" style="display: none;" download="upi_qr_code.png">Download QR Code</a>
+    <div class="form-container">
+        <h1>UPI Pay URI Generator</h1>
+        <form onsubmit="generateQRCode(); return false;">
+            <label for="pa">Payee Address (VPA)*:</label>
+            <input type="text" id="pa" name="pa" required>
+            <label for="pn">Payee Name:</label>
+            <input type="text" id="pn" name="pn">
+            <label for="am">Transaction Amount:</label>
+            <input type="text" id="am" name="am">
+            <label for="cu">Currency Code:</label>
+            <input type="text" id="cu" name="cu">
+            <label for="tn">Transaction Note:</label>
+            <input type="text" id="tn" name="tn">
+            <input type="submit" value="Generate QR Code">
+        </form>
+        <canvas id="canvas"></canvas>
+        <a class="button" id="downloadLink" href="#" download>Download QR Code</a>
+    </div>
     <script>
         function generateQRCode() {
-            var vpa = document.getElementById('vpa').value;
-            var name = document.getElementById('name').value;
-            var qrData = "upi://pay?pa=" + encodeURIComponent(vpa) + "&mc=" + encodeURIComponent(name);
+            var pa = document.getElementById("pa").value;
+            var pn = document.getElementById("pn").value;
+            var am = document.getElementById("am").value;
+            var cu = document.getElementById("cu").value;
+            var tn = document.getElementById("tn").value;
+
+            var payURI = "upi://pay?pa=" + encodeURIComponent(pa);
+            if (pn) {
+                payURI += "&pn=" + encodeURIComponent(pn);
+            }
+            if (am) {
+                payURI += "&am=" + encodeURIComponent(am);
+            }
+            if (cu) {
+                payURI += "&cu=" + encodeURIComponent(cu);
+            }
+            if (tn) {
+                payURI += "&tn=" + encodeURIComponent(tn);
+            }
+
             var qr = new QRious({
-                element: document.getElementById('qrCanvas'),
-                value: qrData,
-                size: 200
+                element: document.getElementById("canvas"),
+                value: payURI,
+                size: 300
             });
-            document.getElementById('downloadLink').href = qr.toDataURL('image/png');
-            document.getElementById('downloadLink').style.display = 'block';
+
+            var downloadLink = document.getElementById("downloadLink");
+            downloadLink.href = document.getElementById("canvas").toDataURL("image/png");
+            downloadLink.download = "upi_pay_qr.png";
         }
     </script>
 </body>
