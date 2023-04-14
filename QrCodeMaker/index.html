@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>QR Code Generator</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+	<style>
+		.container {
+			margin: 20px auto;
+			width: 300px;
+			height: 300px;
+			background-color: #fff;
+			text-align: center;
+			padding: 20px;
+			border: 1px solid #ccc;
+			box-shadow: 0 0 10px rgba(0,0,0,0.3);
+		}
+		h2 {
+			margin-top: 0;
+		}
+		canvas {
+			margin-top: 20px;
+			border: 1px solid #ccc;
+			box-shadow: 0 0 10px rgba(0,0,0,0.3);
+		}
+		button {
+			margin-top: 20px;
+			padding: 10px;
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>Generate QR Code</h2>
+		<input type="text" id="url" placeholder="Enter URL">
+		<button onclick="generateQRCode()">Generate</button>
+		<canvas id="canvas"></canvas>
+		<a id="downloadLink" href="#" download>Download QR Code</a>
+	</div>
+	<script>
+		function generateQRCode() {
+			var url = document.getElementById("url").value;
+			var qr = new QRious({
+				element: document.getElementById("canvas"),
+				value: url,
+				size: 300
+			});
+			document.getElementById("downloadLink").href = document.getElementById("canvas").toDataURL("image/png");
+		}
+	</script>
+</body>
+</html>
