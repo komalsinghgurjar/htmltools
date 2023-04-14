@@ -93,16 +93,16 @@
     <small>e.g. username@bankname or username@upi</small>
     <br><br>
     <label for="pn">Payee Name:</label>
-    <input type="text" id="pn" name="pn">
-    <small>e.g. John Doe</small>
+<input type="text" id="pn" name="pn" pattern="[A-Za-z ]+" oninput="this.value = this.value.replace(/\b\w/g, l => l.toUpperCase());">
+    <small>e.g. John Doe (if Qr doesn't scan fill this)</small>
     <br><br>
     <label for="am">Transaction Amount:</label>
     <input type="text" id="am" name="am" pattern="[0-9]*\.?[0-9]*" title="Enter valid amount with only digits and dot(.)">
     <small>e.g. 500.50</small>
     <br><br>
     <label for="cu">Currency Code:</label>
-    <input type="text" id="cu" name="cu" value="INR">
-    <small>Default currency code is INR</small>
+<input type="text" id="cu" name="cu" maxlength="3" pattern="[A-Z]{3}" oninput="this.value = this.value.toUpperCase()">
+<small>Enter 3-letter currency code e.g. INR (Optional)</small>
     <br><br>
     <label for="tn">Transaction Note:</label>
     <input type="text" id="tn" name="tn">
