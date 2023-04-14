@@ -132,7 +132,7 @@ padding: 5px;
   background-color: #000;
   color: #fff;
   font-size: 0.7rem;
-  padding: 5px;
+  padding: 10px;
   border: none;
   border-radius: 5px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
@@ -167,7 +167,7 @@ padding: 5px;
   display: inline-block;
   background-color: #4CAF50;
   color: white;
-  padding: 25px;
+  padding: 15px;
   text-align: center;
   text-decoration: none;
   font-size: 25px;
@@ -197,23 +197,22 @@ padding: 5px;
 
 
 
-<br>
-<hr>
+
 <div class="form-container">
   <h1>UPI QR Generator</h1>
   <form onsubmit="generateQRCode(); return false;">
     <label for="pa">Payee Address (VPA)*:</label>
     <input type="text" id="pa" name="pa" required pattern="[a-zA-Z0-9_.]+@[a-zA-Z0-9_.]+" title="Enter valid VPA with only alphanumeric characters, @ symbol and dot(.)">
     <small>e.g. username@bankname or username@upi</small>
-    <br><br>
+    <br>
     <label for="pn">Payee Name:</label>
 <input type="text" id="pn" name="pn" pattern="[A-Za-z ]+" oninput="this.value = this.value.replace(/[^A-Za-z ]/g, ''); this.value = this.value.replace(/\b\w/g, l => l.toUpperCase());">
 <small>e.g. John Doe (if Qr doesn't scan fill this)</small>
-    <br><br>
+    <br>
     <label for="am">Transaction Amount:</label>
     <input type="text" id="am" name="am" pattern="[0-9]*\.?[0-9]*" title="Enter valid amount with only digits and dot(.)" inputmode="numeric">
 <small>e.g. 500.50</small>
-    <br><br>
+    <br>
 
 
 
@@ -224,13 +223,13 @@ padding: 5px;
 <small>Enter 3-letter currency code e.g. INR (Optional)</small>
 
 
-    <br><br>
+    <br>
     <label for="tn">Transaction Note:</label>
     <input type="text" id="tn" name="tn">
     <small>e.g. Payment for dinner</small>
-    <br><br>
+    <br>
     <input type="submit" value="Generate QR Code">
-  </form>
+  </form><br>
   <a class="button" id="downloadLink" href="#" download>Download QR Code</a>
 <br>
   <canvas id="canvas"></canvas><br>
@@ -247,7 +246,7 @@ overflow-x: hidden;
 word-wrap: break-word;
             text-align: justify;">
   OUTPUT AREA: None
-</div></div>
+</div></div><br>
 
 
 
@@ -281,7 +280,7 @@ word-wrap: break-word;
             var qr = new QRious({
                 element: document.getElementById("canvas"),
                 value: payURI,
-                size: 600
+                size: 700
             });
 
             var downloadLink = document.getElementById("downloadLink");
