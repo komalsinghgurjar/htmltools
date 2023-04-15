@@ -1,5 +1,5 @@
 .formArea{
-margin: 50px;
+
 padding:50px;
 }
 
@@ -10,7 +10,7 @@ padding:50px;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
   color: #333;
   font-size: 1.2em;
-  
+  margin: 50px;
   text-align: center;
 }
 
@@ -28,7 +28,7 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+  margin: 50px;
   max-width: 400px;
 }
 
