@@ -41,130 +41,34 @@
 
 
 
-	<div class="container">
-		<h1>Age Calculator</h1>
 
-		<form id="date-form">
-			<div>
-				<label for="start-date">Start Date:</label>
-				<input type="date" id="start-date" required>
-			</div>
-
-			<div>
-				<label for="end-date">End Date:</label>
-				<input type="date" id="end-date" required>
-			</div>
-			<div class="button-wrapper">
-				<button type="submit">Calculate</button>
-			</div>
-		</form>
-
-		<div class="result-wrapper" id="result-wrapper">
-			<div class="result">
-				<div class="result-title">Age:</div>
-				<div class="result-value" id="age-result"></div>
-			</div>
-
-			<div class="result">
-				<div class="result-title">Years:</div>
-				<div class="result-value" id="years-result"></div>
-			</div>
-
-			<div class="result">
-				<div class="result-title">Months:</div>
-				<div class="result-value" id="months-result"></div>
-			</div>
-			<div class="result">
-				<div class="result-title">Days:</div>
-				<div class="result-value" id="days-result"></div>
-			</div>
-
-			<div class="result">
-				<div class="result-title">Hours:</div>
-				<div class="result-value" id="hours-result"></div>
-			</div>
-		</div>
-	</div>
-
-	<script>
-const dateForm = document.querySelector('#date-form');
-const startDateInput = document.querySelector('#start-date');
-const endDateInput = document.querySelector('#end-date');
-const resultWrapper = document.querySelector('#result-wrapper');
-const ageResult = document.querySelector('#age-result');
-const yearsResult = document.querySelector('#years-result');
-const monthsResult = document.querySelector('#months-result');
-const daysResult = document.querySelector('#days-result');
-const hoursResult = document.querySelector('#hours-result');
-
-dateForm.addEventListener('submit', calculateDates);
-
-function calculateDates(e) {
-  e.preventDefault();
-
-  const startDate = new Date(startDateInput.value);
-  const endDate = new Date(endDateInput.value);
-
-  const age = calculateAge(startDate, endDate);
-  const years = calculateYears(startDate, endDate);
-  const months = calculateMonths(startDate, endDate);
-  const days = calculateDays(startDate, endDate);
-  const hours = calculateHours(startDate, endDate);
-
-  ageResult.textContent = age;
-  yearsResult.textContent = years;
-  monthsResult.textContent = months;
-  daysResult.textContent = days;
-  hoursResult.textContent = hours;
-
-  resultWrapper.style.display = 'flex';
-}
-
-function calculateAge(startDate, endDate) {
-  const ageDiffMs = endDate - startDate;
-  const ageDate = new Date(ageDiffMs);
-  return Math.abs(ageDate.getUTCFullYear() - 1970);
-}
-
-function calculateYears(startDate, endDate) {
-  const diffMs = endDate - startDate;
-  const years = diffMs / 1000 / 60 / 60 / 24 / 365;
-  return Math.floor(years);
-}
-
-function calculateMonths(startDate, endDate) {
-  const diffMs = endDate - startDate;
-  const months = diffMs / 1000 / 60 / 60 / 24 / 30.44;
-  return Math.floor(months);
-}
-
-function calculateDays(startDate, endDate) {
-  const diffMs = endDate - startDate;
-  const days = diffMs / 1000 / 60 / 60 / 24;
-  return Math.floor(days);
-}
-
-function calculateHours(startDate, endDate) {
-  const diffMs = endDate - startDate;
-  const hours = diffMs / 1000 / 60 / 60;
-  return Math.floor(hours);
-}
-
-</script>
-
-<br><br><hr><br><br>
-  <div style="font-size: 15px;">
-<p>This is html based tool to calculate age or time differnece between two dates in simple way. 
-</p><p>This is online age calculator and use it quickly get age from dob or find difference between two given dates.</p>
+<div style="text-align: center; background-color: #f5f5f5; padding: 20px;">
+  <h1 style="font-size: 28px;">Welcome to Gurjar Tech Tools</h1>
+  <p style="font-size: 18px;">Visit our online tools:</p>
+  <ul style="list-style-type: none; padding: 0;">
+    <li style="margin-bottom: 10px;">
+      <a href="https://tools.gurjartech.in/Age-Calculator" target="_blank" style="color: #007bff; font-size: 16px; text-decoration: none;">Age Calculator</a>
+    </li>
+    <li style="margin-bottom: 10px;">
+      <a href="https://tools.gurjartech.in/urlQr" target="_blank" style="color: #007bff; font-size: 16px; text-decoration: none;">URL QR Maker</a>
+    </li>
+    <li style="margin-bottom: 10px;">
+      <a href="https://tools.gurjartech.in/upiQr" target="_blank" style="color: #007bff; font-size: 16px; text-decoration: none;">UPI QR Maker</a>
+    </li>
+  </ul>
 </div>
-  <div style="font-size: 7px;">
+
+
+
+
+
+<--Copyright-->
+<hr><div style="font-size: 7px;">
   &copy; 2023 Komal Singh. All rights reserved. <br>
   This HTML online tool is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this tool, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under the law. <br>
   The HTML code, design, and content of this tool are the exclusive property of Komal Singh and may not be used or reproduced without permission. Any use or reproduction without permission is strictly prohibited and will be subject to legal action. <br>
   For licensing and other inquiries, please contact Komal Singh at komalsin9h@gmail.com. <br>
   By using this HTML online tool, you agree to abide by all copyright and intellectual property laws and regulations.
 </div>
-
-<br><br><hr><br><br>
 </body>
 </html>
