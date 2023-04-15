@@ -5,5 +5,5 @@ form.addEventListener('submit', function(e) {
   e.preventDefault();
   const number = Number(document.querySelector('#number').value);
   const cubeRoot = Math.cbrt(number);
-  result.textContent = `The cube root of ${number} is ${cubeRoot}.`;
+  result.textContent = `ANSWER: <span style="color: green;"> ${cubeRoot}</span>`;
 });
