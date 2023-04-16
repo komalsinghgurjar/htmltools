@@ -1,1 +1,14 @@
-body{margin:0;padding:0}#pdf-container{position:relative}#pdf-controls{position:absolute;top:10px;left:10px}#pdf-canvas{border:1px solid black}
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+#toolbar {
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+#pdfViewer {
+    width: 100%;
+    height: calc(100vh - 50px);
+}
