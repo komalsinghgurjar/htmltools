@@ -72,3 +72,11 @@ function renderPage(pdfDoc, pageNum) {
     let context = pdfCanvas.getContext('2d');
     pdfCanvas.height = viewport.height;
     pdfCanvas.width = viewport.width;
+    let renderContext = {
+      canvasContext: context,
+      viewport: viewport
+    };
+    page.render(renderContext);
+  });
+}
+
