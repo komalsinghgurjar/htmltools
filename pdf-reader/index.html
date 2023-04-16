@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>PDF Reader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -9,6 +10,12 @@
   <button id="readButton" disabled>Read</button>
   <div id="pdfContainer">
     <canvas id="pdfCanvas"></canvas>
+  </div>
+  <div id="controls">
+    <button id="prevButton" disabled>&lt; Prev</button>
+    <input type="number" id="pageNumInput" min="1" value="1">
+    <span id="totalPages">/ 1</span>
+    <button id="nextButton" disabled>Next &gt;</button>
   </div>
   <script src="pdf.js"></script>
   <script src="pdf.worker.js"></script>
