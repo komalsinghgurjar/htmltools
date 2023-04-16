@@ -1,53 +1,38 @@
-// PDF.js library should be loaded before this script
+let pdfFileInput = document.getElementById('pdfFileInput');
+let pdfCanvas = document.getElementById('pdfCanvas');
+let pdfContainer = document.getElementById('pdfContainer');
 
-// Global variables
-let pdfDoc = null;
-let pageNum = 1;
-const scale = 1.5;
-const canvas = document.getElementById('pdf-canvas');
-const ctx = canvas.getContext('2d');
+pdfFileInput.addEventListener('change', function() {
+  let file = this.files[0];
+  let reader = new FileReader();
+  
+  reader.onload = function() {
+    let typedArray = new Uint8Array(this.result);
+    renderPDF(typedArray);
+  };
+  
+  reader.readAsArrayBuffer(file);
+});
 
-// Function to render a page
-function renderPage(num) {
-    pdfDoc.getPage(num).then(page => {
-        const viewport = page.getViewport({ scale });
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        const renderCtx = {
-            canvasContext: ctx,
-            viewport: viewport
-        };
-        page.render(renderCtx);
+function renderPDF(data) {
+  pdfContainer.style.display = 'block';
+  
+  pdfjsLib.getDocument({data: data}).promise.then(function(pdfDoc) {
+    let numPages = pdfDoc.numPages;
+    
+    pdfDoc.getPage(1).then(function(page) {
+      let viewport = page.getViewport({scale: 1});
+      let canvasContext = pdfCanvas.getContext('2d');
+      
+      pdfCanvas.height = viewport.height;
+      pdfCanvas.width = viewport.width;
+      
+      let renderContext = {
+        canvasContext: canvasContext,
+        viewport: viewport
+      };
+      
+      page.render(renderContext);
     });
-    document.getElementById('current-page').textContent = num;
+  });
 }
-
-// Function to go to previous page
-function prevPage() {
-    if (pageNum <= 1) {
-        return;
-    }
-    pageNum--;
-    renderPage(pageNum);
-}
-
-// Function to go to next page
-function nextPage() {
-    if (pageNum >= pdfDoc.numPages) {
-        return;
-    }
-    pageNum++;
-    renderPage(pageNum);
-}
-
-// Fetch the PDF file
-fetch('sample.pdf')
-.then(res => res.arrayBuffer())
-.then(data => {
-    pdfjsLib.getDocument(data).promise.then(doc => {
-        pdfDoc = doc;
-        document.getElementById('total-pages').textContent = pdfDoc.numPages;
-        renderPage(pageNum);
-    });
-})
-.catch(err => console.error('Error loading PDF:', err));
