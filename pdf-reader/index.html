@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="language" content="en">
+<meta name="description" content="Easily read PDF files in your browser with the PDF Reader tool by GurjarTech Tools. No need to download or install any software. Enjoy smooth and convenient PDF reading experience online.">
+<meta name="robots" content="index, follow">
+  
+  <link rel="canonical" href="https://tools.gurjartech.in/pdf-reader/">
+  <link rel="shortcut icon" href="https://tools.gurjartech.in/favicon.ico" type="image/x-icon"/>
+   <link rel="apple-touch-icon" href="https://tools.gurjartech.in/apple-touch-icon.png" />
+
+ 
+
+    <title>PDF Reader</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<!--page header-->
+<link href="https://tools.gurjartech.in/header.css" type="text/css" rel="stylesheet" />
+<header class="header">
+    <a class="headerLink" href="https://tools.gurjartech.in/">
+      <img class="headerImage" src="https://tools.gurjartech.in/logo.png" alt="LOGO">
+      <h2 class="headerHeading">GURJARTECH TOOLS</h2>
+    </a>
+ </header>
+<!--page header end-->
+
+
+
+    <div id="pdf-container">
+        <div id="pdf-toolbar">
+            <button id="prev-page-btn" class="btn">Prev</button>
+            <div id="page-info">
+                <span id="current-page">1</span>/<span id="total-pages">1</span>
+            </div>
+            <button id="next-page-btn" class="btn">Next</button>
+        </div>
+        <canvas id="pdf-canvas"></canvas>
+    </div>
+    <script src="pdf.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
