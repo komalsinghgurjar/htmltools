@@ -1,85 +1,78 @@
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const zoomInBtn = document.getElementById('zoom-in-btn');
-const zoomOutBtn = document.getElementById('zoom-out-btn');
-const pageInput = document.getElementById('page-input');
-const pdfFileInput = document.getElementById('pdf-file');
-const canvas = document.getElementById('pdf-canvas');
+let pdfDoc = null;
+let pageNum = 1;
+let scale = 1.2;
+
+const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
-let pdf = null;
-let currentPage = 1;
-let zoom = 1;
-
-prevBtn.addEventListener('click', showPrevPage);
-nextBtn.addEventListener('click', showNextPage);
-zoomInBtn.addEventListener('click', zoomIn);
-zoomOutBtn.addEventListener('click', zoomOut);
-pageInput.addEventListener('keydown', jumpToPage);
-pdfFileInput.addEventListener('change', loadPDF);
-
-function showPrevPage() {
-  if (currentPage > 1) {
-    currentPage--;
-    renderPage(currentPage);
-  }
-}
-
-function showNextPage() {
-  if (currentPage < pdf.numPages) {
-    currentPage++;
-    renderPage(currentPage);
-  }
-}
-
-function jumpToPage(event) {
-  if (event.key === 'Enter') {
-    const pageNumber = parseInt(pageInput.value);
-    if (pageNumber > 0 && pageNumber <= pdf.numPages) {
-      currentPage = pageNumber;
-      renderPage(currentPage);
-    }
-  }
+function renderPage(num) {
+  pdfDoc.getPage(num).then((page) => {
+    const viewport = page.getViewport({scale});
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const renderContext = {canvasContext: ctx, viewport};
+    page.render(renderContext);
+    document.getElementById('pdfViewer').innerHTML = '';
+    document.getElementById('pdfViewer').appendChild(canvas);
+  });
 }
 
 function zoomIn() {
-  if (zoom < 2) {
-    zoom += 0.1;
-    renderPage(currentPage);
+  if (scale < 2) {
+    pageNum = 1;
+    scale += 0.1;
+    renderPage(pageNum);
   }
 }
 
 function zoomOut() {
-  if (zoom > 0.5) {
-    zoom -= 0.1;
-    renderPage(currentPage);
+  if (scale > 0.2) {
+    pageNum = 1;
+    scale -= 0.1;
+    renderPage(pageNum);
   }
 }
 
-function loadPDF(event) {
-  const file = event.target.files[0];
+function nextPage() {
+  if (pageNum < pdfDoc.numPages) {
+    pageNum++;
+    renderPage(pageNum);
+  }
+}
+
+function prevPage() {
+  if (pageNum > 1) {
+    pageNum--;
+    renderPage(pageNum);
+  }
+}
+
+function jumpToPage() {
+  const input = document.getElementById('jumpToPageInput').value;
+  const pageNum = parseInt(input);
+  if (pageNum >= 1 && pageNum <= pdfDoc.numPages) {
+    pageNum = pageNum;
+    renderPage(pageNum);
+  } else {
+    alert('Invalid page number. Please try again.');
+  }
+}
+
+document.getElementById('pdfInput').addEventListener('change', (e) => {
+  const file = e.target.files[0];
   const reader = new FileReader();
-  reader.onload = function() {
-    const typedarray = new Uint8Array(reader.result);
-    PDFJS.getDocument(typedarray).promise.then(function(pdfDoc) {
-      pdf = pdfDoc;
-      renderPage(currentPage);
+  reader.onload = (e) => {
+    const data = e.target.result;
+    pdfjsLib.getDocument({data}).promise.then((pdf) => {
+      pdfDoc = pdf;
+      renderPage(pageNum);
     });
   };
   reader.readAsArrayBuffer(file);
-}
+});
 
-function renderPage(pageNumber) {
-  pdf.getPage(pageNumber).then(function(page) {
-    const viewport = page.getViewport({ scale: zoom });
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-
-    const renderContext = {
-      canvasContext: ctx,
-      viewport: viewport
-    };
-    page.render(renderContext);
-    pageInput.value = currentPage;
-  });
-}
+document.getElementById('zoomInBtn').addEventListener('click', zoomIn);
+document.getElementById('zoomOutBtn').addEventListener('click', zoomOut);
+document.getElementById('prevPageBtn').addEventListener('click', prevPage);
+document.getElementById('nextPageBtn').addEventListener('click', nextPage);
+document.getElementById('jumpToPageBtn').addEventListener('click', jumpToPage);
