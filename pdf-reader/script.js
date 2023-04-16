@@ -1,92 +1,85 @@
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const zoomInBtn = document.getElementById('zoom-in-btn');
+const zoomOutBtn = document.getElementById('zoom-out-btn');
+const pageInput = document.getElementById('page-input');
+const pdfFileInput = document.getElementById('pdf-file');
+const canvas = document.getElementById('pdf-canvas');
+const ctx = canvas.getContext('2d');
 
-let pdfFileInput = document.getElementById('pdfFileInput');
-let readButton = document.getElementById('readButton');
-let pdfCanvas = document.getElementById('pdfCanvas');
-let pdfContainer = document.getElementById('pdfContainer');
-let prevButton = document.getElementById('prevButton');
-let nextButton = document.getElementById('nextButton');
-let pageNumInput = document.getElementById('pageNumInput');
-let totalPages = document.getElementById('totalPages');
-let pdfDoc = null;
+let pdf = null;
 let currentPage = 1;
+let zoom = 1;
 
-pdfFileInput.addEventListener('change', function() {
-  let file = this.files[0];
-  let reader = new FileReader();
-  
-  reader.onload = function() {
-    let typedArray = new Uint8Array(this.result);
-    renderPDF(typedArray);
-  };
-  
-  reader.readAsArrayBuffer(file);
-});
+prevBtn.addEventListener('click', showPrevPage);
+nextBtn.addEventListener('click', showNextPage);
+zoomInBtn.addEventListener('click', zoomIn);
+zoomOutBtn.addEventListener('click', zoomOut);
+pageInput.addEventListener('keydown', jumpToPage);
+pdfFileInput.addEventListener('change', loadPDF);
 
-readButton.addEventListener('click', function() {
-  if (pdfDoc !== null && currentPage > 0 && currentPage <= pdfDoc.numPages) {
-    renderPage(pdfDoc, currentPage);
-  }
-});
-
-prevButton.addEventListener('click', function() {
-  if (pdfDoc !== null && currentPage > 1) {
+function showPrevPage() {
+  if (currentPage > 1) {
     currentPage--;
-    renderPage(pdfDoc, currentPage);
-    updateNavigationButtons();
+    renderPage(currentPage);
   }
-});
-
-nextButton.addEventListener('click', function() {
-  if (pdfDoc !== null && currentPage < pdfDoc.numPages) {
-    currentPage++;
-    renderPage(pdfDoc, currentPage);
-    updateNavigationButtons();
-  }
-});
-
-pageNumInput.addEventListener('input', function() {
-  let pageNum = parseInt(this.value);
-  if (pdfDoc !== null && pageNum > 0 && pageNum <= pdfDoc.numPages) {
-    currentPage = pageNum;
-    renderPage(pdfDoc, currentPage);
-    updateNavigationButtons();
-  }
-});
-
-function renderPDF(data) {
-  pdfContainer.style.display = 'block';
-  
-  pdfjsLib.getDocument({data: data}).promise.then(function(doc) {
-    pdfDoc = doc;
-    readButton.disabled = false;
-    prevButton.disabled = false;
-    nextButton.disabled = false;
-    pageNumInput.disabled = false;
-    totalPages.textContent = '/ ' + pdfDoc.numPages;
-    currentPage = 1;
-    renderPage(pdfDoc, currentPage);
-    updateNavigationButtons();
-  });
 }
 
-function renderPage(pdfDoc, pageNum) {
-  pdfDoc.getPage(pageNum).then(function(page) {
-    let viewport = page.getViewport({scale: 1});
-    let scale = pdfCanvas.offsetWidth / viewport.width;
-    viewport = page.getViewport({scale: scale});
-    let context = pdfCanvas.getContext('2d');
-    pdfCanvas.height = viewport.height;
-    pdfCanvas.width = viewport.width;
+function showNextPage() {
+  if (currentPage < pdf.numPages) {
+    currentPage++;
+    renderPage(currentPage);
+  }
+}
 
-    let renderContext = {
-      canvasContext: context,
+function jumpToPage(event) {
+  if (event.key === 'Enter') {
+    const pageNumber = parseInt(pageInput.value);
+    if (pageNumber > 0 && pageNumber <= pdf.numPages) {
+      currentPage = pageNumber;
+      renderPage(currentPage);
+    }
+  }
+}
+
+function zoomIn() {
+  if (zoom < 2) {
+    zoom += 0.1;
+    renderPage(currentPage);
+  }
+}
+
+function zoomOut() {
+  if (zoom > 0.5) {
+    zoom -= 0.1;
+    renderPage(currentPage);
+  }
+}
+
+function loadPDF(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  reader.onload = function() {
+    const typedarray = new Uint8Array(reader.result);
+    PDFJS.getDocument(typedarray).promise.then(function(pdfDoc) {
+      pdf = pdfDoc;
+      renderPage(currentPage);
+    });
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function renderPage(pageNumber) {
+  pdf.getPage(pageNumber).then(function(page) {
+    const viewport = page.getViewport({ scale: zoom });
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+
+    const renderContext = {
+      canvasContext: ctx,
       viewport: viewport
     };
     page.render(renderContext);
+    pageInput.value = currentPage;
   });
-}
-
-function updateNavigationButtons() {
-  prevButton.disabled = currentPage <= 1;
-  nextButton.disabled = currentPage >= pdfDoc.numPages;
 }
