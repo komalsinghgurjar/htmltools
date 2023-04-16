@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PDF Book Reader</title>
-  <link rel="stylesheet" href="style.css">
+    <title>PDF Book Reader</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="pdf-container">
-    <div id="pdf-controls">
-      <button id="prev-btn">Previous</button>
-      <input type="text" id="page-input" />
-      <button id="next-btn">Next</button>
-      <button id="zoom-in-btn">Zoom In</button>
-      <button id="zoom-out-btn">Zoom Out</button>
-      <input type="file" id="pdf-file" />
+    <div id="toolbar">
+        <input type="file" id="pdfInput" accept=".pdf">
+        <button id="zoomInBtn">Zoom In</button>
+        <button id="zoomOutBtn">Zoom Out</button>
+        <button id="prevPageBtn">Previous Page</button>
+        <button id="nextPageBtn">Next Page</button>
+        <input type="number" id="jumpToPageInput" placeholder="Jump to Page">
+        <button id="jumpToPageBtn">Go</button>
     </div>
-    <canvas id="pdf-canvas"></canvas>
-  </div>
-  <script src="script.js"></script>
+    <div id="pdfViewer"></div>
+    <script src="script.js"></script>
 </body>
 </html>
