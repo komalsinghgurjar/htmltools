@@ -1,20 +1,27 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
 }
 
 #pdfContainer {
   display: none;
-  margin: 20px;
+  margin-bottom: 20px;
 }
 
 #pdfCanvas {
   border: 1px solid #000;
-  max-width: 100%;
 }
 
-#readButton {
-  display: block;
-  margin: 20px auto;
+#controls {
+  display: flex;
+  align-items: center;
+}
+
+#prevButton,
+#nextButton {
+  margin: 0 10px;
+}
+
+#pageNumInput {
+  width: 50px;
+  text-align: center;
 }
