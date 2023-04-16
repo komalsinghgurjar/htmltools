@@ -1,3 +1,4 @@
+
 let pdfFileInput = document.getElementById('pdfFileInput');
 let readButton = document.getElementById('readButton');
 let pdfCanvas = document.getElementById('pdfCanvas');
