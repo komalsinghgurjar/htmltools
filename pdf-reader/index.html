@@ -1,162 +1,153 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PDF Book Reader</title>
-    <style>
-        #pdf-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+  <title>PDF Book Reader</title>
+  <style>
+    /* Styling for the PDF container */
+    #pdf-container {
+      max-width: 100%;
+      height: 100vh;
+    }
 
-        #canvas-container {
-            position: relative;
-            overflow: auto;
-        }
+    /* Styling for the zoom in/out buttons */
+    .zoom-btns {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 100;
+    }
 
-        #canvas {
-            display: block;
-        }
-
-        #controls-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 1rem;
-        }
-
-        .control-button {
-            margin: 0 0.5rem;
-            padding: 0.5rem;
-            cursor: pointer;
-        }
-
-        #page-input {
-            width: 3rem;
-            text-align: center;
-        }
-    </style>
+    /* Styling for the page jump text box */
+    .page-jump {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      z-index: 100;
+    }
+  </style>
 </head>
 <body>
-    <input type="file" id="file-input" accept=".pdf" style="display:none">
-    <div id="pdf-container">
-        <div id="canvas-container">
-            <canvas id="canvas"></canvas>
-        </div>
-    </div>
-    <div id="controls-container">
-        <div class="control-button" id="prev-button">Previous</div>
-        <input type="number" id="page-input" min="1" max="1" value="1">
-        <div class="control-button" id="next-button">Next</div>
-        <div class="control-button" id="zoom-in-button">Zoom In</div>
-        <div class="control-button" id="zoom-out-button">Zoom Out</div>
-    </div>
+  <input type="file" id="pdf-file" accept=".pdf" style="display:none" />
+  <div id="pdf-container"></div>
+  <div class="zoom-btns">
+    <button onclick="zoomIn()">Zoom In</button>
+    <button onclick="zoomOut()">Zoom Out</button>
+  </div>
+  <div class="page-jump">
+    <input type="number" id="page-number" min="1" step="1" placeholder="Jump to Page" />
+    <button onclick="jumpToPage()">Go</button>
+  </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.376/pdf.min.js"></script>
-    <script>
-        const fileInput = document.getElementById('file-input');
-        const canvas = document.getElementById('canvas');
-        const prevButton = document.getElementById('prev-button');
-        const nextButton = document.getElementById('next-button');
-        const pageInput = document.getElementById('page-input');
-        const zoomInButton = document.getElementById('zoom-in-button');
-        const zoomOutButton = document.getElementById('zoom-out-button');
+  <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+  <script>
+    let pdfDoc = null;
+    let pageNum = 1;
+    let pageRendering = false;
+    let pageNumPending = null;
+    let scale = 1.0;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const container = document.getElementById('pdf-container');
 
-        const ZOOM_STEP = 0.1;
-        let pdf = null;
-        let currentPage = 1;
-        let numPages = 0;
-        let currentScale = 1;
+    document.getElementById('pdf-file').addEventListener('change', handleFileSelect, false);
 
-        // Open file input dialog when file input button is clicked
-        fileInput.addEventListener('click', () => {
-            fileInput.value = null;
+    function handleFileSelect(evt) {
+      const file = evt.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        const pdfData = new Uint8Array(event.target.result);
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+        pdfjsLib.getDocument({ data: pdfData }).promise.then(function (pdfDoc_) {
+          pdfDoc = pdfDoc_;
+          renderPage(pageNum);
         });
+      };
 
-        // Load selected PDF file when a file is selected
-        fileInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const pdfData = new Uint8Array(event.target.result);
-                    loadPDF(pdfData);
-                };
-                reader.readAsArrayBuffer(file);
-            }
+      reader.readAsArrayBuffer(file);
+    }
+
+    function renderPage(num) {
+      pageRendering = true;
+      pdfDoc.getPage(num).then(function (page) {
+        const viewport = page.getViewport({ scale: scale });
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        const renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+
+        page.render(renderContext).promise.then(function () {
+          container.innerHTML = '';
+          container.appendChild(canvas);
+          pageRendering = false;
+
+          if (pageNumPending !== null) {
+            renderPage(pageNumPending);
+            pageNumPending = null;
+          }
         });
+      });
 
-        // Load PDF data and initialize the PDF viewer
-        function loadPDF(data) {
-            pdf = null;
-            currentPage = 1;
-            numPages = 0;
-            currentScale = 1;
+      document.getElementById('page-number').value = pageNum;
+    }
 
-            pdfjsLib.getDocument({ data }).promise.then((pdfDoc) => {
-                pdf = pdfDoc;
-                numPages = pdf.numPages;
-                renderPage(pdf, currentPage);
+    function queueRenderPage(num) {
+      if (pageRendering) {
+        pageNumPending = num;
+      } else {
+        renderPage(num);
+      }
+    }
 
-                // Update page input max value
-                pageInput.max = numPages;
+    function zoomIn() {
+      scale += 0.1;
+      renderPage(pageNum);
+    }
 
-                // Add event listeners for page input and zoom buttons
-                pageInput.addEventListener('input', (event) => {
-                                        const newPage = parseInt(event.target.value);
-                    if (newPage >= 1 && newPage <= numPages) {
-                        currentPage = newPage;
-                        renderPage(pdf, currentPage);
-                    }
-                });
+    
+    function zoomOut() {
+      scale -= 0.1;
+      renderPage(pageNum);
+    }
 
-                prevButton.addEventListener('click', () => {
-                    if (currentPage > 1) {
-                        currentPage--;
-                        renderPage(pdf, currentPage);
-                    }
-                });
+    function jumpToPage() {
+      const pageNumberInput = document.getElementById('page-number');
+      const pageNumber = parseInt(pageNumberInput.value);
 
-                nextButton.addEventListener('click', () => {
-                    if (currentPage < numPages) {
-                        currentPage++;
-                        renderPage(pdf, currentPage);
-                    }
-                });
+      if (pageNumber > 0 && pageNumber <= pdfDoc.numPages) {
+        pageNum = pageNumber;
+        queueRenderPage(pageNum);
+      }
+    }
 
-                zoomInButton.addEventListener('click', () => {
-                    currentScale += ZOOM_STEP;
-                    renderPage(pdf, currentPage);
-                });
+    function nextPage() {
+      if (pageNum < pdfDoc.numPages) {
+        pageNum++;
+        queueRenderPage(pageNum);
+      }
+    }
 
-                zoomOutButton.addEventListener('click', () => {
-                    if (currentScale > ZOOM_STEP) {
-                        currentScale -= ZOOM_STEP;
-                        renderPage(pdf, currentPage);
-                    }
-                });
-            });
+    function previousPage() {
+      if (pageNum > 1) {
+        pageNum--;
+        queueRenderPage(pageNum);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener('keydown', function (event) {
+        if (event.code === 'ArrowUp' || event.code === 'ArrowRight') {
+          nextPage();
+        } else if (event.code === 'ArrowDown' || event.code === 'ArrowLeft') {
+          previousPage();
         }
-
-        // Render a specific page of the PDF on the canvas
-        function renderPage(pdf, pageNum) {
-            pdf.getPage(pageNum).then((page) => {
-                const viewport = page.getViewport({ scale: currentScale });
-                const canvasContext = canvas.getContext('2d');
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-
-                const renderContext = {
-                    canvasContext,
-                    viewport
-                };
-
-                page.render(renderContext);
-                pageInput.value = pageNum;
-            });
-        }
-    </script>
+      });
+    });
+  </script>
 </body>
 </html>
-
