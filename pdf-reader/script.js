@@ -31,6 +31,7 @@ prevButton.addEventListener('click', function() {
   if (pdfDoc !== null && currentPage > 1) {
     currentPage--;
     renderPage(pdfDoc, currentPage);
+    updateNavigationButtons();
   }
 });
 
@@ -38,6 +39,7 @@ nextButton.addEventListener('click', function() {
   if (pdfDoc !== null && currentPage < pdfDoc.numPages) {
     currentPage++;
     renderPage(pdfDoc, currentPage);
+    updateNavigationButtons();
   }
 });
 
@@ -46,6 +48,7 @@ pageNumInput.addEventListener('input', function() {
   if (pdfDoc !== null && pageNum > 0 && pageNum <= pdfDoc.numPages) {
     currentPage = pageNum;
     renderPage(pdfDoc, currentPage);
+    updateNavigationButtons();
   }
 });
 
@@ -61,6 +64,7 @@ function renderPDF(data) {
     totalPages.textContent = '/ ' + pdfDoc.numPages;
     currentPage = 1;
     renderPage(pdfDoc, currentPage);
+    updateNavigationButtons();
   });
 }
 
@@ -72,6 +76,7 @@ function renderPage(pdfDoc, pageNum) {
     let context = pdfCanvas.getContext('2d');
     pdfCanvas.height = viewport.height;
     pdfCanvas.width = viewport.width;
+
     let renderContext = {
       canvasContext: context,
       viewport: viewport
@@ -80,3 +85,7 @@ function renderPage(pdfDoc, pageNum) {
   });
 }
 
+function updateNavigationButtons() {
+  prevButton.disabled = currentPage <= 1;
+  nextButton.disabled = currentPage >= pdfDoc.numPages;
+}
