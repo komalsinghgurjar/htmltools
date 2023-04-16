@@ -1,5 +1,7 @@
 body {
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 #pdfContainer {
@@ -10,4 +12,9 @@ body {
 #pdfCanvas {
   border: 1px solid #000;
   max-width: 100%;
+}
+
+#readButton {
+  display: block;
+  margin: 20px auto;
 }
