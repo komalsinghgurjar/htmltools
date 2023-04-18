@@ -44,43 +44,55 @@ function saveFile() {
   var div = document.createElement("div");
   div.appendChild(document.createTextNode("Please select an encoding: "));
   div.appendChild(selectEncoding);
-  var result = confirm({
-    message: div,
+  var result = confirm("message", {
+    title: "Select Encoding",
     buttons: {
       ok: "OK",
       cancel: "Cancel"
+    },
+    content: div,
+    callback: function (result) {
+      if (result) {
+        var encoding = selectEncoding.value;
+        // prompt user for file name and extension
+        var fileName = prompt("Please enter a file name:", "file");
+        if (!fileName) {
+          fileName = "file"; // default file name
+        }
+        var extension = prompt("Please enter a file extension (e.g. .txt, .html):", ".txt");
+        if (!extension) {
+          extension = ".txt"; // default extension
+        }
+        var fullName = fileName + extension;
+
+        // create blob and download link
+        var blob;
+        if (encoding.toUpperCase() === "UTF-8") {
+          blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+        } else {
+          blob = new Blob([new TextEncoder(encoding).encode(text)], {type: "text/plain;charset=" + encoding});
+        }
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement("a");
+        link.href = url;
+        link.download = fullName;
+        link.click();
+      }
     }
   });
-  if (result) {
-    var encoding = selectEncoding.value;
-  } else {
-    return;
-  }
-
-  // prompt user for file name and extension
-  var fileName = prompt("Please enter a file name:", "file");
-  if (!fileName) {
-    fileName = "file"; // default file name
-  }
-  var extension = prompt("Please enter a file extension (e.g. .txt, .html):", ".txt");
-  if (!extension) {
-    extension = ".txt"; // default extension
-  }
-  var fullName = fileName + extension;
-
-  // create blob and download link
-  var blob;
-  if (encoding.toUpperCase() === "UTF-8") {
-    blob = new Blob([text], {type: "text/plain;charset=utf-8"});
-  } else {
-    blob = new Blob([new TextEncoder(encoding).encode(text)], {type: "text/plain;charset=" + encoding});
-  }
-  var url = URL.createObjectURL(blob);
-  var link = document.createElement("a");
-  link.href = url;
-  link.download = fullName;
-  link.click();
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 // check if there's saved text in localStorage
 var savedText = localStorage.getItem("editorText");
