@@ -40,69 +40,40 @@ function saveFile() {
     selectEncoding.appendChild(option);
   }
 
-  // prompt user for encoding
-  var div = document.createElement("div");
-  div.appendChild(document.createTextNode("Please select an encoding: "));
-  div.appendChild(selectEncoding);
-  var result = confirm("message", {
-    title: "Select Encoding",
-    buttons: {
-      ok: "OK",
-      cancel: "Cancel"
-    },
-    content: div,
-    callback: function (result) {
-      if (result) {
-        var encoding = selectEncoding.value;
-        // prompt user for file name and extension
-        var fileName = prompt("Please enter a file name:", "file");
-        if (!fileName) {
-          fileName = "file"; // default file name
-        }
-        var extension = prompt("Please enter a file extension (e.g. .txt, .html):", ".txt");
-        if (!extension) {
-          extension = ".txt"; // default extension
-        }
-        var fullName = fileName + extension;
+  // prompt user for encoding using SweetAlert2
+  Swal.fire({
+    title: 'Please select an encoding',
+    html: selectEncoding.outerHTML,
+    showCancelButton: true,
+    confirmButtonText: 'OK',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var encoding = selectEncoding.value;
 
-        // create blob and download link
-        var blob;
-        if (encoding.toUpperCase() === "UTF-8") {
-          blob = new Blob([text], {type: "text/plain;charset=utf-8"});
-        } else {
-          blob = new Blob([new TextEncoder(encoding).encode(text)], {type: "text/plain;charset=" + encoding});
-        }
-        var url = URL.createObjectURL(blob);
-        var link = document.createElement("a");
-        link.href = url;
-        link.download = fullName;
-        link.click();
+      // prompt user for file name and extension
+      var fileName = prompt("Please enter a file name:", "file");
+      if (!fileName) {
+        fileName = "file"; // default file name
       }
+      var extension = prompt("Please enter a file extension (e.g. .txt, .html):", ".txt");
+      if (!extension) {
+        extension = ".txt"; // default extension
+      }
+      var fullName = fileName + extension;
+
+      // create blob and download link
+      var blob;
+      if (encoding.toUpperCase() === "UTF-8") {
+        blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+      } else {
+        blob = new Blob([new TextEncoder(encoding).encode(text)], {type: "text/plain;charset=" + encoding});
+      }
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement("a");
+      link.href = url;
+      link.download = fullName;
+      link.click();
     }
   });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-// check if there's saved text in localStorage
-var savedText = localStorage.getItem("editorText");
-if (savedText) {
-  // if there's saved text, update the editor's value
-  document.getElementById("editor").value = savedText;
-}
-
-// listen for changes in the editor's value
-document.getElementById("editor").addEventListener("input", function(event) {
-  // save the editor's value to localStorage
-  localStorage.setItem("editorText", event.target.value);
-});
