@@ -8,7 +8,7 @@ const checkbox = document.getElementById('checkbox');
 document.addEventListener("DOMContentLoaded", function() {
 var spanElement = document.getElementById("mySpan");
   spanElement.innerHTML = percentage;
-  alert(00);
+  
   });
 
 
@@ -39,8 +39,8 @@ function sendTelegramMessage(message) {
     
   var status=0;
       
-  for (var i = 0; i < chatId.length+1; i++) {
-    alert(i);
+  for (var i = 0; i < chatId.length; i++) {
+    
     
   fetch(apiUrl, {
     method: 'POST',
