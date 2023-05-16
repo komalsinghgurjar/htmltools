@@ -1,6 +1,6 @@
 var percentage=getDeductionPercentage();
 var submitData=null;
-
+alert(55);
 
 const checkbox = document.getElementById('checkbox');
   const submitButton = document.getElementById('submitReview');
