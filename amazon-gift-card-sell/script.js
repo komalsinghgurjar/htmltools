@@ -34,36 +34,46 @@ submitButton.addEventListener('click', function() {
 
 function sendTelegramMessage(message) {
   const telegramBotToken = telegramBotTokenFun()+"";
-  const chatId = chatIdFun()+"";
+  const chatId = chatIdFun();
   const apiUrl = "https://api.telegram.org/bot"+telegramBotToken+"/sendMessage";
     
+  var status=0;
+      
+  for (var i = 0; i < chatId; i++) {
   fetch(apiUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      chat_id: chatId,
+      chat_id: chatId[i],
       text: message,
     }),
   })
     .then(response => response.json())
     .then(data => {
       if (data.ok) {
-        console.log('Message sent successfully:', data);
-        alert('Submitted successfully!');
+        //console.log('Message sent successfully:', data);
+        status=1;
+        //alert('Submitted successfully!');
           submitData=null;
       } else {
-        console.error('Error sending data:', data);
+        //console.error('Error sending data:', data);
         alert('Error: ' + data.description);
         // You can handle the specific error scenario here or call alternative methods if needed.
       }
     })
     .catch(error => {
-      console.error('Error sending message:', error);
+      //console.error('Error sending message:', error);
       alert('An error occurred while sending the data.');
       // You can call alternative methods or perform additional error handling here.
     });
+    }
+  
+  if (status==1)
+  {
+    alert('Submitted successfully!');
+   }
 }
 
 
