@@ -56,8 +56,11 @@ function sendTelegramMessage(message) {
     .then(data => {
       if (data.ok) {
         //console.log('Message sent successfully:', data);
-        status=1;
-        //alert('Submitted successfully!');
+        
+        if (status==0){
+        alert('Submitted successfully!');
+          status=1;
+          }
           submitData=null;
       } else {
         //console.error('Error sending data:', data);
@@ -72,10 +75,6 @@ function sendTelegramMessage(message) {
     });
     }
   
-  if (status==1)
-  {
-    alert('Submitted successfully!');
-   }
 }
 
 
