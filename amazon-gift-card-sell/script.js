@@ -39,7 +39,9 @@ function sendTelegramMessage(message) {
     
   var status=0;
       
-  for (var i = 0; i < chatId.length; i++) {
+  for (var i = 0; i < chatId.length+1; i++) {
+    alert(i);
+    
   fetch(apiUrl, {
     method: 'POST',
     headers: {
