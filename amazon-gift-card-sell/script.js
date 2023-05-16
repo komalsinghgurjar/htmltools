@@ -5,8 +5,11 @@ var submitData=null;
 const checkbox = document.getElementById('checkbox');
   const submitButton = document.getElementById('submitReview');
 
+
+document.addEventListener("DOMContentLoaded", function() {
 var spanElement = document.getElementById("mySpan");
   spanElement.innerHTML = percentage;
+  });
 
 
 submitButton.addEventListener('click', function() {
