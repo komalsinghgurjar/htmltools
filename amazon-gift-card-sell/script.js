@@ -1,6 +1,5 @@
 var percentage=getDeductionPercentage();
 var submitData=null;
-alert(55);
 
 const checkbox = document.getElementById('checkbox');
   const submitButton = document.getElementById('submitReview');
@@ -9,6 +8,7 @@ const checkbox = document.getElementById('checkbox');
 document.addEventListener("DOMContentLoaded", function() {
 var spanElement = document.getElementById("mySpan");
   spanElement.innerHTML = percentage;
+  alert(00);
   });
 
 
