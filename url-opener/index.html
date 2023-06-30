@@ -45,6 +45,10 @@
     
     if (urlFromParam) {
       document.getElementById('urlInput').value = urlFromParam;
+
+      setTimeout(function() {
+  openURL(urlFromParam);
+}, 4000);
     }
     
     // Handle form submission
