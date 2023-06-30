@@ -34,6 +34,11 @@
       window.open(url, '_blank');
     }
     
+    // Function to encode URL
+    function encodeURL(url) {
+      return encodeURIComponent(url);
+    }
+    
     // Get URL from GET parameter if available
     const urlParams = new URLSearchParams(window.location.search);
     const urlFromParam = urlParams.get('url');
@@ -54,6 +59,25 @@
       if (url) {
         openURL(url);
       }
+    });
+    
+    // Handle input change event
+    const urlInput = document.getElementById('urlInput');
+    
+    urlInput.addEventListener('input', function(event) {
+      const changedValue = event.target.value;
+      const encodedValue = encodeURL(changedValue);
+      
+      const currentURL = window.location.href;
+      const modifiedURL = currentURL.includes('?') ? `${currentURL}&url=${encodedValue}` : `${currentURL}?url=${encodedValue}`;
+      
+      const modifiedURLLink = document.createElement('a');
+      modifiedURLLink.href = modifiedURL;
+      modifiedURLLink.textContent = modifiedURL;
+      modifiedURLLink.target = '_blank';
+      
+      const container = document.querySelector('.container');
+      container.appendChild(modifiedURLLink);
     });
   </script>
 </body>
