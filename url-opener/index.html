@@ -2,11 +2,18 @@
 <html>
 <head>
   <title>URL Opener</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     .container {
       max-width: 400px;
       margin: 0 auto;
       padding: 20px;
+    }
+    
+    input[type="text"], button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -19,8 +26,6 @@
       <input type="text" id="urlInput" name="url" placeholder="https://example.com">
       <button type="submit">Open</button>
     </form>
-    
-    <p id="encodedUrl"></p>
   </div>
   
   <script>
@@ -28,23 +33,13 @@
     function openURL(url) {
       window.open(url, '_blank');
     }
-
-    // Function to redirect URL
-    function redirectToURL(url) {
-      window.location.href = url;
-    }
     
     // Get URL from GET parameter if available
     const urlParams = new URLSearchParams(window.location.search);
     const urlFromParam = urlParams.get('url');
     
     if (urlFromParam) {
-      openURL(urlFromParam);
-
-setTimeout(function() {
-      redirectToURL(urlFromParam);
-}, 4000);
-
+      document.getElementById('urlInput').value = urlFromParam;
     }
     
     // Handle form submission
@@ -57,22 +52,7 @@ setTimeout(function() {
       const url = urlInput.value;
       
       if (url) {
-        const encodedUrl = encodeURIComponent(url);
-        const currentURL = window.location.href.split('?')[0];
-        const generatedURL = `${currentURL}?url=${encodedUrl}`;
-        
-        
-
-
-        
-        const encodedUrlElement = document.getElementById('encodedUrl');
-        encodedUrlElement.textContent = `Encoded URL: ${generatedURL}`;
-setTimeout(function() {
-  openURL(url);
-  redirectToURL(url);
-}, 6000);
-
-
+        openURL(url);
       }
     });
   </script>
