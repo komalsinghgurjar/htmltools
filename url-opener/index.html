@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>URL Opener</title>
+  <style>
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>URL Opener</h1>
+    
+    <form id="urlForm">
+      <label for="urlInput">Enter URL:</label>
+      <input type="text" id="urlInput" name="url" placeholder="https://example.com">
+      <button type="submit">Open</button>
+    </form>
+  </div>
+  
+  <script>
+    // Function to open URL
+    function openURL(url) {
+      window.open(url, '_blank');
+    }
+    
+    // Get URL from GET parameter if available
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlFromParam = urlParams.get('url');
+    
+    if (urlFromParam) {
+      openURL(urlFromParam);
+    }
+    
+    // Handle form submission
+    const form = document.getElementById('urlForm');
+    
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const urlInput = document.getElementById('urlInput');
+      const url = urlInput.value;
+      
+      if (url) {
+        openURL(url);
+      }
+    });
+  </script>
+</body>
+</html>
