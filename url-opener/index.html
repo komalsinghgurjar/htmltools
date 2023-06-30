@@ -61,15 +61,16 @@ setTimeout(function() {
         const currentURL = window.location.href.split('?')[0];
         const generatedURL = `${currentURL}?url=${encodedUrl}`;
         
-        openURL(url);
+        
 
 
         
         const encodedUrlElement = document.getElementById('encodedUrl');
         encodedUrlElement.textContent = `Encoded URL: ${generatedURL}`;
 setTimeout(function() {
+  openURL(url);
   redirectToURL(url);
-}, 4000);
+}, 6000);
 
 
       }
