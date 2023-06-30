@@ -33,11 +33,6 @@
     function openURL(url) {
       window.open(url, '_blank');
     }
-
-    // Function to redirect to URL
-    function redirectToURL(url) {
-      window.location.href = url;
-    }
     
     // Function to encode URL
     function encodeURL(url) {
@@ -51,11 +46,10 @@
     if (urlFromParam) {
       document.getElementById('urlInput').value = urlFromParam;
 
-     setTimeout(function() {
+      setTimeout(function() {
   openURL(urlFromParam);
-  redirectToURL(urlFromParam);
 }, 4000);
- }
+    }
     
     // Handle form submission
     const form = document.getElementById('urlForm');
@@ -68,7 +62,6 @@
       
       if (url) {
         openURL(url);
-        redirectToURL(url);
       }
     });
     
