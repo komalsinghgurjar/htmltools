@@ -1,38 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pattern Viewer</title>
+  <title>Pattern Lock Viewer</title>
   <script>
-    var patternData = []; // Array to store the pattern data
-    var currentIndex = 0; // Current index of the displayed pattern
-
     function loadPatternData() {
       var fileInput = document.getElementById("file-input");
       var file = fileInput.files[0];
 
       var reader = new FileReader();
       reader.onload = function(event) {
-        patternData = event.target.result.split("\n");
+        var patternData = event.target.result;
+        var patterns = patternData.split("\n");
+
+        var grid = document.getElementById("grid");
+        for (var i = 0; i < patterns.length; i++) {
+          var pattern = patterns[i];
+          var dots = pattern.split("");
+
+          for (var j = 0; j < dots.length; j++) {
+            var dotIndex = parseInt(dots[j]);
+            var dot = grid.querySelector('[data-index="' + dotIndex + '"]');
+            dot.classList.add("selected");
+          }
+        }
       };
+
       reader.readAsText(file);
     }
-
-    function showPattern() {
-      var patternDisplay = document.getElementById("pattern-display");
-      if (currentIndex < patternData.length) {
-        patternDisplay.textContent = patternData[currentIndex];
-        currentIndex++;
-      } else {
-        patternDisplay.textContent = "End of patterns";
-      }
-    }
   </script>
+  <style>
+    .dot {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: gray;
+      margin: 5px;
+      display: inline-block;
+    }
+
+    .selected {
+      background-color: blue;
+    }
+  </style>
 </head>
 <body>
-  <h1>Pattern Viewer</h1>
-  <input type="file" id="file-input" accept=".txt" onchange="loadPatternData()">
+  <h1>Pattern Lock Viewer</h1>
+  <input type="file" id="file-input">
+  <button onclick="loadPatternData()">Load Patterns</button>
   <br><br>
-  <button onclick="showPattern()">Show Pattern</button>
-  <div id="pattern-display"></div>
+  <div id="grid">
+    <div class="dot" data-index="1"></div>
+    <div class="dot" data-index="2"></div>
+    <div class="dot" data-index="3"></div>
+    <div class="dot" data-index="4"></div>
+    <div class="dot" data-index="5"></div>
+    <div class="dot" data-index="6"></div>
+    <div class="dot" data-index="7"></div>
+    <div class="dot" data-index="8"></div>
+    <div class="dot" data-index="9"></div>
+  </div>
 </body>
 </html>
