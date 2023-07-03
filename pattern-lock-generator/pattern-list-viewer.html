@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pattern Viewer</title>
+  <script>
+    var patternData = []; // Array to store the pattern data
+    var currentIndex = 0; // Current index of the displayed pattern
+
+    function loadPatternData() {
+      var fileInput = document.getElementById("file-input");
+      var file = fileInput.files[0];
+
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        patternData = event.target.result.split("\n");
+      };
+      reader.readAsText(file);
+    }
+
+    function showPattern() {
+      var patternDisplay = document.getElementById("pattern-display");
+      if (currentIndex < patternData.length) {
+        patternDisplay.textContent = patternData[currentIndex];
+        currentIndex++;
+      } else {
+        patternDisplay.textContent = "End of patterns";
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Pattern Viewer</h1>
+  <input type="file" id="file-input" accept=".txt" onchange="loadPatternData()">
+  <br><br>
+  <button onclick="showPattern()">Show Pattern</button>
+  <div id="pattern-display"></div>
+</body>
+</html>
