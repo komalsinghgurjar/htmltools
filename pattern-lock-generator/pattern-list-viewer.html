@@ -1,63 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pattern Lock Viewer</title>
-  <script>
-    function loadPatternData() {
-      var fileInput = document.getElementById("file-input");
-      var file = fileInput.files[0];
-
-      var reader = new FileReader();
-      reader.onload = function(event) {
-        var patternData = event.target.result;
-        var patterns = patternData.split("\n");
-
-        var grid = document.getElementById("grid");
-        for (var i = 0; i < patterns.length; i++) {
-          var pattern = patterns[i];
-          var dots = pattern.split("");
-
-          for (var j = 0; j < dots.length; j++) {
-            var dotIndex = parseInt(dots[j]);
-            var dot = grid.querySelector('[data-index="' + dotIndex + '"]');
-            dot.classList.add("selected");
-          }
+    <title>Pattern Lock Gallery</title>
+    <style>
+        .pattern {
+            display: inline-block;
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+            text-align: center;
         }
-      };
-
-      reader.readAsText(file);
-    }
-  </script>
-  <style>
-    .dot {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: gray;
-      margin: 5px;
-      display: inline-block;
-    }
-
-    .selected {
-      background-color: blue;
-    }
-  </style>
+    </style>
 </head>
 <body>
-  <h1>Pattern Lock Viewer</h1>
-  <input type="file" id="file-input">
-  <button onclick="loadPatternData()">Load Patterns</button>
-  <br><br>
-  <div id="grid">
-    <div class="dot" data-index="1"></div>
-    <div class="dot" data-index="2"></div>
-    <div class="dot" data-index="3"></div>
-    <div class="dot" data-index="4"></div>
-    <div class="dot" data-index="5"></div>
-    <div class="dot" data-index="6"></div>
-    <div class="dot" data-index="7"></div>
-    <div class="dot" data-index="8"></div>
-    <div class="dot" data-index="9"></div>
-  </div>
+    <input type="file" id="fileInput">
+    <div id="gallery"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/pattern-lock-js@1.1.2/dist/pattern-lock.min.js"></script>
+    <script>
+        var fileInput = document.getElementById('fileInput');
+        var gallery = document.getElementById('gallery');
+
+        fileInput.addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                var contents = e.target.result;
+                var patterns = contents.split('\n');
+
+                // Clear the gallery
+                gallery.innerHTML = '';
+
+                for (var i = 0; i < patterns.length; i++) {
+                    var pattern = patterns[i].trim();
+                    if (pattern !== '') {
+                        var patternElement = document.createElement('div');
+                        patternElement.className = 'pattern';
+                        patternElement.id = 'pattern_' + i;
+                        gallery.appendChild(patternElement);
+
+                        var patternLock = new PatternLock('#pattern_' + i, {
+                            onDraw: function(pattern) {
+                                console.log(pattern);
+                            }
+                        });
+
+                        patternLock.setPattern(pattern);
+                    }
+                }
+            };
+
+            reader.readAsText(file);
+        });
+    </script>
 </body>
 </html>
