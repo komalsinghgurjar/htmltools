@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkcolor_prediction_game"]=self["webpackChunkcolor_prediction_game"]||[]).push([[443],{2348:function(n,e,t){t.r(e),t.d(e,{default:function(){return d}});var r=t(9812);const a={class:"about"},c=(0,r._)("h1",null,"This is an about test page",-1),o=[c];function u(n,e){return(0,r.wg)(),(0,r.iD)("div",a,o)}var i=t(8998);const s={},l=(0,i.Z)(s,[["render",u]]);var d=l}}]);
-//# sourceMappingURL=about.4c74aa02.js.map
