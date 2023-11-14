@@ -67,6 +67,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Add the 'show' class after a short delay to trigger the transition
     setTimeout(async function () {
       document.querySelector('.global-header').classList.add('show');
-    }, 100); // Adjust the delay (in milliseconds) as needed
+    }, 50); // Adjust the delay (in milliseconds) as needed
   }
 });

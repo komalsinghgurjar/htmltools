@@ -3,7 +3,7 @@
     // Fetch and process tools data asynchronously
     async function fetchAndProcessTools() {
       try {
-        const response = await fetch('_config-global/global-tools-list.xml');
+        const response = await fetch('CONFIG-GLOBAL/global-tools-list.xml');
         const data = await response.text();
 
         const parser = new DOMParser();
