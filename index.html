@@ -2,71 +2,50 @@
 <html lang="en">
 
 <head>
+  <!-- Basic Meta Tags -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Browser Tools</title>
   
-  <!-- Include Global Js File -->
-<script src="https://tools.gurjartech.in/global.js"></script>
-<!-- Include Global CSS File -->
-<link rel="stylesheet" href="https://tools.gurjartech.in/global.css">
+  <!-- Page Title and Description for SEO -->
+  <title>GurjarTech Browser Tools: Explore Free Online Tools</title>
+  <meta name="description" content="Discover a variety of browser-based tools for free. GurjarTech provides a collection of useful online utilities and applications.">
 
+  <!-- Additional Meta Tags for SEO -->
+  <meta name="keywords" content="browser tools, online utilities, free tools, GurjarTech, web applications, gurjar tech tools">
+  <meta name="author" content="Komal Singh Gurjar">
+  <meta name="last-modified" content="2023-11-15">
 
+  <!-- Open Graph Metadata for Facebook and Other Platforms -->
+  <meta property="og:title" content="GurjarTech Browser Tools: Explore Free Online Tools">
+  <meta property="og:description" content="Discover a variety of browser-based tools for free. GurjarTech provides a collection of useful online utilities and applications.">
+  <meta property="og:image" content="android-chrome-512x512.png">
+  <meta property="og:url" content="https://tools.gurjartech.in">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card Metadata -->
+  <meta name="twitter:card" content="android-chrome-512x512.png">
+  <meta name="twitter:title" content="GurjarTech Browser Tools: Explore Free Online Tools">
+  <meta name="twitter:description" content="Discover a variety of browser-based tools for free. GurjarTech provides a collection of useful online utilities and applications.">
+  <meta name="twitter:image" content="android-chrome-512x512.png">
+
+  <!-- Include Global JavaScript, Header, Footer, and CSS Files -->
+  <script src="_config-global/global.js"></script>
+  <script src="_config-global/global-header.js"></script>
+  <script src="_config-global/global-footer.js"></script>
+  <link rel="stylesheet" href="_config-global/global.css">
+
+  <!-- Add any additional meta tags or stylesheets as needed -->
 </head>
 
 <body>
-  <h1>GurjarTech Tools HomePage</h1>
+  <!-- Main Content Section -->
+  <h1>Explore Free Browser Tools at GurjarTech</h1>
 
+  <!-- Tool Container for Dynamic Content -->
   <div id="toolContainer">
     <!-- Tools will be dynamically added here -->
+    <script src="_js/homepage.js" defer></script>
   </div>
-
-  <script>
-    fetch('tools-list.xml')
-      .then(response => response.text())
-      .then(data => {
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(data, 'application/xml');
-        const toolsByCategory = {};
-
-        // Organize tools by category
-        const tools = xmlDoc.getElementsByTagName('tool');
-        for (let i = 0; i < tools.length; i++) {
-          const tool = tools[i];
-          const toolCategory = tool.getElementsByTagName('category')[0].textContent;
-
-          if (!toolsByCategory[toolCategory]) {
-            toolsByCategory[toolCategory] = [];
-          }
-
-          toolsByCategory[toolCategory].push(tool);
-        }
-
-        // Create and display tools category-wise
-        const toolContainer = document.getElementById('toolContainer');
-        for (const category in toolsByCategory) {
-          const categoryHeader = document.createElement('h2');
-          categoryHeader.textContent = category;
-          toolContainer.appendChild(categoryHeader);
-
-          const categoryList = document.createElement('ul');
-
-          toolsByCategory[category].forEach(tool => {
-            const toolUrl = tool.getElementsByTagName('url')[0].textContent;
-            const toolName = tool.getElementsByTagName('name')[0].textContent;
-            const toolDescription = tool.getElementsByTagName('description')[0].textContent;
-
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `<strong>${toolName}</strong> - ${toolDescription}<br>
-                                 <a href="${toolUrl}" target="_blank">Visit ${toolName}</a><br><br>`;
-            categoryList.appendChild(listItem);
-          });
-
-          toolContainer.appendChild(categoryList);
-        }
-      })
-      .catch(error => console.error('Error fetching tools data:', error));
-  </script>
 </body>
 
 </html>

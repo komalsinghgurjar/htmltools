@@ -10,10 +10,15 @@ gtag('js', new Date());
 gtag('config', 'G-FBL87273FY');
 
 
+
+
+
+
+
 // Dynamically including global-header.js
-const globalHeaderJs = document.createElement('script');
-globalHeaderJs.src = 'global-header.js';
-document.head.appendChild(globalHeaderJs);
+//const globalHeaderJs = document.createElement('script');
+//globalHeaderJs.src = 'global-header.js';
+//document.head.appendChild(globalHeaderJs);
 
 
-alert('test global.js');
+//alert('test global.js');
