@@ -1,1 +1,1 @@
-# htmltools
+Personal hobby project for my static site tools.gurjartech.in

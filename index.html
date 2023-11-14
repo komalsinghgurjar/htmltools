@@ -1,21 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Test Site</title>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FBL87273FY"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
- 
-            gtag('config', 'G-FBL87273FY');
-        </script>
-    </head>
-    <body>
-        <div align="center">
-            <h1>Hello This Is A Test Site</h1>
-            <p>Testing Google Analytics</p>
-        </div>
-    </body>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Browser Tools</title>
+</head>
+
+<body>
+  <h1>GurjarTech Tools HomePage</h1>
+
+  <div id="toolContainer">
+    <!-- Tools will be dynamically added here -->
+  </div>
+
+  <script>
+    fetch('tools-list.xml')
+      .then(response => response.text())
+      .then(data => {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(data, 'application/xml');
+        const toolsByCategory = {};
+
+        // Organize tools by category
+        const tools = xmlDoc.getElementsByTagName('tool');
+        for (let i = 0; i < tools.length; i++) {
+          const tool = tools[i];
+          const toolCategory = tool.getElementsByTagName('category')[0].textContent;
+
+          if (!toolsByCategory[toolCategory]) {
+            toolsByCategory[toolCategory] = [];
+          }
+
+          toolsByCategory[toolCategory].push(tool);
+        }
+
+        // Create and display tools category-wise
+        const toolContainer = document.getElementById('toolContainer');
+        for (const category in toolsByCategory) {
+          const categoryHeader = document.createElement('h2');
+          categoryHeader.textContent = category;
+          toolContainer.appendChild(categoryHeader);
+
+          const categoryList = document.createElement('ul');
+
+          toolsByCategory[category].forEach(tool => {
+            const toolUrl = tool.getElementsByTagName('url')[0].textContent;
+            const toolName = tool.getElementsByTagName('name')[0].textContent;
+            const toolDescription = tool.getElementsByTagName('description')[0].textContent;
+
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<strong>${toolName}</strong> - ${toolDescription}<br>
+                                 <a href="${toolUrl}" target="_blank">Visit ${toolName}</a><br><br>`;
+            categoryList.appendChild(listItem);
+          });
+
+          toolContainer.appendChild(categoryList);
+        }
+      })
+      .catch(error => console.error('Error fetching tools data:', error));
+  </script>
+</body>
+
 </html>
