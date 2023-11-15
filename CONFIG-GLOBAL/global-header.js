@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const dataLocal = `
       <header class="global-header">
         <a href="index.html" class="header-link">
-          <img src="logo.png" class="header-img" alt="LOGO">
+          <img src="https://tools.gurjartech.in/logo.png" class="header-img" alt="LOGO">
           <h2 class="header-text">GURJARTECH TOOLS</h2>
         </a>
       </header>

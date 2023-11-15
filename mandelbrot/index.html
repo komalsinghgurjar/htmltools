@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mandelbrot Fractal Explorer</title>
+  <style>
+    /* Add any additional styles here */
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="fractalCanvas"></canvas>
+
+  <script>
+    // Mandelbrot fractal explorer JavaScript code
+    const canvas = document.getElementById('fractalCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    const maxIterations = 100;
+
+    function mandelbrot(c) {
+      let z = 0;
+      let n = 0;
+
+      while (Math.abs(z) <= 2 && n < maxIterations) {
+        z = z * z + c;
+        n++;
+      }
+
+      if (n === maxIterations) return -1;
+
+      return n / maxIterations;
+    }
+
+    function drawMandelbrot() {
+      for (let x = 0; x < width; x++) {
+        for (let y = 0; y < height; y++) {
+          const cx = (x - width / 2) * 4 / width;
+          const cy = (y - height / 2) * 4 / height;
+
+          const color = mandelbrot({ re: cx, im: cy });
+
+          if (color === -1) {
+            ctx.fillStyle = '#000'; // Set background color for points in the set
+          } else {
+            ctx.fillStyle = `hsl(240, 100%, ${color * 100}%)`;
+          }
+
+          ctx.fillRect(x, y, 1, 1);
+        }
+      }
+    }
+
+    drawMandelbrot();
+  </script>
+</body>
+
+</html>
