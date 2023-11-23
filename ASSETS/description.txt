@@ -1,1 +1,0 @@
-This dir should contain global media, video, images, etc

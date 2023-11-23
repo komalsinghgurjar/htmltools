@@ -1,64 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8">
+    <script>
+        // Get the dynamic resource value from the URL
+        const dynamicResource = window.location.pathname.split('/').pop();
 
-<link rel="canonical" href="https://tools.gurjartech.in/password-generator/" />
-
-<!-- Web App Manifest -->
-<link rel="manifest" href="site.webmanifest">
-
-<!--favicons-->
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="theme-color" content="#ffffff">
-
-  <title>Password Generator Tool</title>
-  <link rel="stylesheet" href="style.css">
+        // Redirect to the dynamic URL
+        window.location.replace(`https://gurjartech.in/web-tools/${dynamicResource}`);
+    </script>
+    <title>Redirecting...</title>
 </head>
 <body>
-
-  <div class="container">
-    <h1>Password Generator Tool</h1>
-    <div class="form-group">
-      <label for="length">Password Length:</label>
-      <input type="number" id="length" name="length" min="8" max="32" value="12" required>
-    </div>
-    <div class="form-group">
-      <label for="uppercase">Include Uppercase:</label>
-      <input type="checkbox" id="uppercase" name="uppercase">
-    </div>
-    <div class="form-group">
-      <label for="lowercase">Include Lowercase:</label>
-      <input type="checkbox" id="lowercase" name="lowercase" checked>
-    </div>
-    <div class="form-group">
-      <label for="numbers">Include Numbers:</label>
-      <input type="checkbox" id="numbers" name="numbers" checked>
-    </div>
-    <div class="form-group">
-      <label for="symbols">Include Symbols:</label>
-      <input type="checkbox" id="symbols" name="symbols">
-    </div>
-    <div class="form-group">
-      <button id="generate">Generate Password</button>
-      <button id="copy">Copy to Clipboard</button>
-    </div>
-    <div class="output">
-      <textarea id="password" readonly></textarea>
-      <div id="message"></div>
-    </div>
-  </div>
-  <script src="script.js"></script>
-
-<footer>
-    <p>&copy; 2023 Gurjartech Tools</p>
-  </footer>
+    <p>If you are not redirected, <a href="https://gurjartech.in/web-tools/${dynamicResource}">click here</a>.</p>
 </body>
 </html>

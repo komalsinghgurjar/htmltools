@@ -1,123 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>URL Opener</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-<!-- Include Global Js File -->
-<script src="https://tools.gurjartech.in/global.js"></script>
-<!-- Include Global CSS File -->
-<link rel="stylesheet" href="https://tools.gurjartech.in/global.css">
+    <meta charset="UTF-8">
+    <script>
+        // Get the dynamic resource value from the URL
+        const dynamicResource = window.location.pathname.split('/').pop();
 
-
-  
-  <style>
-    .container {
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    
-    input[type="text"], button {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-
-    
-  /* Styling for the input field */
-  #urlInput {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    width: 300px;
-  }
-
-  /* Styling for the button */
-  button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  /* Hover effect for the button */
-  button[type="submit"]:hover {
-    background-color: #45a049;
-  }
-
-  </style>
+        // Redirect to the dynamic URL
+        window.location.replace(`https://gurjartech.in/web-tools/${dynamicResource}`);
+    </script>
+    <title>Redirecting...</title>
 </head>
 <body>
-  <div class="container">
-    <h1>URL Opener</h1>
-    
-    <form id="urlForm">
-      <label for="urlInput">Enter URL:</label>
-      <input type="text" id="urlInput" name="url" placeholder="https://example.com">
-      <button type="submit"><b>Open</b></button>
-    </form>
-  </div>
-  
-  <script>
-    // Function to open URL
-    function openURL(url) {
-      window.open(url, '_blank');
-    }
-    
-    // Function to encode URL
-    function encodeURL(url) {
-      return encodeURIComponent(url);
-    }
-    
-    // Get URL from GET parameter if available
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlFromParam = urlParams.get('url');
-    
-    if (urlFromParam) {
-      document.getElementById('urlInput').value = urlFromParam;
-
-      setTimeout(function() {
-  openURL(urlFromParam);
-}, 5500);
-    }
-    
-    // Handle form submission
-    const form = document.getElementById('urlForm');
-    
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-      
-      const urlInput = document.getElementById('urlInput');
-      const url = urlInput.value;
-      
-      if (url) {
-        openURL(url);
-      }
-    });
-    
-    // Handle input change event
-    const urlInput = document.getElementById('urlInput');
-    
-    urlInput.addEventListener('input', function(event) {
-      const changedValue = event.target.value;
-      const encodedValue = encodeURL(changedValue);
-      
-      const currentURL = window.location.href;
-      const modifiedURL = currentURL.includes('?') ? `${currentURL}&url=${encodedValue}` : `${currentURL}?url=${encodedValue}`;
-      
-      const modifiedURLLink = document.createElement('a');
-      modifiedURLLink.href = modifiedURL;
-      modifiedURLLink.textContent = modifiedURL;
-      modifiedURLLink.target = '_blank';
-      
-      const container = document.querySelector('.container');
-      container.appendChild(modifiedURLLink);
-    });
-  </script>
+    <p>If you are not redirected, <a href="https://gurjartech.in/web-tools/${dynamicResource}">click here</a>.</p>
 </body>
 </html>
